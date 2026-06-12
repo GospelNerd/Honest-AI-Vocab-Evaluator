@@ -171,6 +171,10 @@ main { padding: 1.5rem 0 3rem; }
   padding: 1.1rem 1.25rem;
 }
 
+.term-card.caution {
+  border-left: 3px solid var(--warn);
+}
+
 .term-card-header {
   display: flex;
   flex-wrap: wrap;
@@ -188,6 +192,10 @@ main { padding: 1.5rem 0 3rem; }
   text-decoration-color: rgba(139, 69, 19, 0.4);
 }
 
+.term-card.caution .term-misleading {
+  text-decoration: none;
+}
+
 .term-arrow { color: var(--ink-muted); font-size: 0.9rem; }
 
 .term-replacement {
@@ -195,6 +203,20 @@ main { padding: 1.5rem 0 3rem; }
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--good);
+}
+
+.term-flag {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--warn);
+  background: var(--warn-bg);
+  border: 1px solid var(--warn);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  align-self: center;
 }
 
 .term-source {

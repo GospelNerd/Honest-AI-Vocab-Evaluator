@@ -70,18 +70,22 @@
     }
 
     filtered.forEach((t) => {
+      const isCaution = t.type === "caution";
       const card = document.createElement("article");
-      card.className = "term-card";
+      card.className = isCaution ? "term-card caution" : "term-card";
+      const headerRight = isCaution
+        ? `<span class="term-flag">${esc(t.flag || "handle with care")}</span>`
+        : `<span class="term-arrow" aria-hidden="true">\u2192</span><span class="term-replacement">${esc(t.replacement)}</span>`;
+      const useLabel = isCaution ? "What to do" : "Use instead";
       card.innerHTML = `
         <div class="term-card-header">
           <span class="term-misleading">${esc(t.misleading)}</span>
-          <span class="term-arrow" aria-hidden="true">→</span>
-          <span class="term-replacement">${esc(t.replacement)}</span>
+          ${headerRight}
           <span class="term-source">${esc(t.source)}</span>
         </div>
         <div class="term-body">
           <p><strong>Why it misleads:</strong> ${esc(t.problem)}</p>
-          <p><strong>Use instead:</strong> ${esc(t.better)}</p>
+          <p><strong>${useLabel}:</strong> ${esc(t.better)}</p>
           <div class="term-examples">
             <p class="example-bad">${esc(t.exampleBad)}</p>
             <p class="example-good">${esc(t.exampleGood)}</p>
@@ -96,8 +100,9 @@
   renderGlossary();
 
   // --- Practice ---
+  const PRACTICE_TERMS = VOCAB_TERMS.filter((t) => t.type !== "caution");
   let practiceIndex = 0;
-  let practiceOrder = shuffle([...VOCAB_TERMS]);
+  let practiceOrder = shuffle([...PRACTICE_TERMS]);
   let score = { correct: 0, total: 0 };
 
   const practiceTerm = document.getElementById("practice-term");
@@ -109,7 +114,7 @@
 
   function showPracticeTerm() {
     if (practiceIndex >= practiceOrder.length) {
-      practiceOrder = shuffle([...VOCAB_TERMS]);
+      practiceOrder = shuffle([...PRACTICE_TERMS]);
       practiceIndex = 0;
     }
     const t = practiceOrder[practiceIndex];
@@ -138,7 +143,7 @@
       const ok = answers.some((a) => a === given || a.includes(given) || given.includes(a));
       if (ok) {
         score.correct += 1;
-        practiceFeedback.textContent = `Correct — "${t.replacement}"`;
+        practiceFeedback.textContent = `Correct: "${t.replacement}"`;
         practiceFeedback.className = "practice-feedback correct";
       } else {
         practiceFeedback.innerHTML = `Not quite. Accepted: <strong>${esc(t.replacement)}</strong>`;
@@ -206,7 +211,7 @@
       word.classList.add("revealed");
       word.textContent = term.replacement;
       word.title = term.better;
-      suggestion.textContent = `${term.misleading} → ${term.replacement}: ${term.better}`;
+      suggestion.textContent = `${term.misleading} \u2192 ${term.replacement}: ${term.better}`;
     });
 
     rewriteContainer.innerHTML = "";

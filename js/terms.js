@@ -5,7 +5,7 @@ const VOCAB_TERMS = [
     replacement: "prediction",
     replacementAlternatives: ["prediction system", "prediction systems", "statistical pattern matching"],
     source: "Slow AI",
-    problem: "Implies understanding, reasoning, and a mind that grasps what it is doing. A large language model predicts the next token — none of that is present. The word launders a guess into a judgement and extends unwarranted trust.",
+    problem: "Implies understanding, reasoning, and a mind that grasps what it is doing. A large language model predicts the next token. None of that is present. The word launders a guess into a judgement and extends unwarranted trust.",
     better: "Statistical pattern matching is precise where intelligence is aspirational. Call them prediction systems: they find regularities in training data and reproduce them with no understanding of what any of it means.",
     exampleBad: "The intelligent diagnostic tool flagged the anomaly.",
     exampleGood: "The prediction system flagged patterns that correlate with the anomaly."
@@ -16,8 +16,8 @@ const VOCAB_TERMS = [
     replacement: "fabrication",
     replacementAlternatives: ["fabrications", "confident fabrication"],
     source: "Slow AI",
-    problem: "Frames a falsehood as a brief glitch in an otherwise reliable mind. The model is not malfunctioning — it generates plausible-sounding text with no mechanism for knowing whether any of it is true. The lie is the rule, not the exception.",
-    better: "A fabrication is produced from available materials. Nothing malfunctions. The word names a generative act that can be characterised, regulated, and traced to an owner — keeping a human in the sentence.",
+    problem: "Frames a falsehood as a brief glitch in an otherwise reliable mind. The model is not malfunctioning. It generates plausible-sounding text with no mechanism for knowing whether any of it is true. The lie is the rule, not the exception.",
+    better: "A fabrication is produced from available materials. Nothing malfunctions. The word names a generative act that can be characterised, regulated, and traced to an owner, which keeps a human in the sentence.",
     exampleBad: "The model hallucinated a citation that does not exist.",
     exampleGood: "The model fabricated a citation from patterns in its training data."
   },
@@ -27,7 +27,7 @@ const VOCAB_TERMS = [
     replacement: "general at what?",
     replacementAlternatives: ["general at what", "what is general"],
     source: "Slow AI",
-    problem: "Artificial General Intelligence behaves like an essentially contested concept — the definition moves every time a system gets close. Repackaging a process as a noun quietly makes it a thing that exists somewhere, waiting to be reached.",
+    problem: "Artificial General Intelligence behaves like an essentially contested concept. The definition moves every time a system gets close. Repackaging a process as a noun quietly makes it a thing that exists somewhere, waiting to be reached.",
     better: "Retire the noun. Every time someone says AGI, replace it with the question the term is built to avoid: general at which specific tasks, measured how, and against whom?",
     exampleBad: "We are five years away from AGI.",
     exampleGood: "General at which tasks, measured how, and against whom?"
@@ -39,7 +39,7 @@ const VOCAB_TERMS = [
     replacementAlternatives: ["mimic", "performance", "mimicking"],
     source: "Slow AI",
     problem: "Asking whether AI is conscious imports the entire moral apparatus we reserve for sentient beings, on the strength of a convincing performance. A system optimised for human-like responses will produce human-like answers to questions only a conscious thing could answer.",
-    better: "The system performs the surface of a mind. There is no backstage — the performance is the whole of it. The useful question is what it is imitating, and why that imitation works so well on us.",
+    better: "The system performs the surface of a mind. There is no backstage. The performance is the whole of it. The useful question is what it is imitating, and why that imitation works so well on us.",
     exampleBad: "Researchers debated whether the chatbot had achieved consciousness.",
     exampleGood: "Researchers examined how convincingly the system mimics conscious discourse."
   },
@@ -60,7 +60,7 @@ const VOCAB_TERMS = [
     replacement: "output",
     replacementAlternatives: ["outputs", "response", "responses"],
     source: "logosanalog",
-    problem: "Behavior suggests an entity acting with internal states and intentions. A model produces outputs from inputs according to its architecture and weights — there is no behaving subject behind the result.",
+    problem: "Behavior suggests an entity acting with internal states and intentions. A model produces outputs from inputs according to its architecture and weights. There is no behaving subject behind the result.",
     better: "Output names what you can actually observe and measure: tokens, classifications, scores. It does not smuggle in an implied actor.",
     exampleBad: "The model's behavior became more cautious after fine-tuning.",
     exampleGood: "The model's outputs became more cautious after fine-tuning."
@@ -71,7 +71,7 @@ const VOCAB_TERMS = [
     replacement: "processing",
     replacementAlternatives: ["compute", "computing", "computation"],
     source: "logosanalog",
-    problem: "Thinking implies deliberation, inner experience, and understanding. What happens inside a model is matrix multiplication and attention — not thought.",
+    problem: "Thinking implies deliberation, inner experience, and understanding. What happens inside a model is matrix multiplication and attention, not thought.",
     better: "Processing describes mechanical operations without attributing a mental life to the machine.",
     exampleBad: "You can see the model thinking through the problem step by step.",
     exampleGood: "You can see the model processing the problem step by step."
@@ -82,10 +82,65 @@ const VOCAB_TERMS = [
     replacement: "calculating",
     replacementAlternatives: ["calculation", "computing", "inferring statistically"],
     source: "logosanalog",
-    problem: "Reasoning suggests drawing conclusions from understood premises. Chain-of-thought outputs are generated text that mimics a reasoning trace — the model does not grasp the logic it appears to follow.",
+    problem: "Reasoning suggests drawing conclusions from understood premises. Chain-of-thought outputs are generated text that mimics a reasoning trace. The model does not grasp the logic it appears to follow.",
     better: "Calculating (or statistically inferring) names the operation without crediting the system with genuine logical comprehension.",
     exampleBad: "The model reasoned its way to the correct answer.",
     exampleGood: "The model calculated its way to the correct answer."
+  },
+  {
+    id: "emergence",
+    misleading: "emergence",
+    replacement: "replication",
+    replacementAlternatives: ["reproduction", "recombination", "imitation"],
+    source: "logosanalog",
+    problem: "Emergence claims that a genuinely new capacity, emotion, understanding, a theory of mind, arose on its own once the system got big enough. What is observable is that capacity being reproduced from a training corpus full of humans exhibiting it. The word asserts something appeared. It covers for the fact that the appearance was copied from the data.",
+    better: "When someone says a capacity emerged, ask whether anything new actually arose, or whether the system is replicating a pattern that was in its training data all along. It is almost always the second.",
+    exampleBad: "Empathy emerged in the model once it crossed a billion parameters.",
+    exampleGood: "The model replicates empathy from the human conversations in its training data."
+  },
+  {
+    id: "learning",
+    misleading: "learning",
+    replacement: "tuning",
+    replacementAlternatives: ["parameter tuning", "adjustment", "optimization"],
+    source: "logosanalog",
+    problem: "Learning implies the system acquires understanding on its own. What actually happens is engineers tuning it through trial and error, adjusting weights until the output looks closer to what they intend. The agency belongs to the people running the process, not to the model.",
+    better: "Tuning names the intentional, iterative work engineers do to shape outputs. Reserve learning for beings that are formed over time.",
+    exampleBad: "The model learned to refuse unsafe requests.",
+    exampleGood: "Engineers tuned the model to refuse unsafe requests."
+  },
+  {
+    id: "understanding",
+    misleading: "understands",
+    replacement: "matches",
+    replacementAlternatives: ["predicts", "retrieves", "produces matching output"],
+    source: "logosanalog",
+    problem: "Understanding implies a grasp of meaning and access to whether a claim is true. A prediction system has neither, which is why it can state a falsehood with full confidence. The word grants comprehension that its failure modes disprove.",
+    better: "Matches or predicts names what is observable, output consistent with the input, without crediting the system with comprehension it does not have.",
+    exampleBad: "The model understands your question and knows the answer.",
+    exampleGood: "The model produces output that matches your question."
+  },
+  {
+    id: "artificial",
+    type: "caution",
+    flag: "read literally",
+    misleading: "artificial",
+    source: "logosanalog",
+    problem: "Artificial already means artifice, the made imitation, not the real thing. The industry reads it the other way, as a substrate label meaning produced by artificial means, which quietly grants that the real thing is present and was merely manufactured. You cannot produce an artificial instance of something you have not defined. Artificial consciousness is incoherent while consciousness itself is undefined.",
+    better: "Do not swap this word. Read it correctly. Artificial X means X-imitation, not a manufactured X. When you see artificial consciousness or artificial intelligence, hear the artifice the word already carries.",
+    exampleBad: "We may be a few years from artificial consciousness.",
+    exampleGood: "Artificial means artifice. An artificial X is, by the word's own sense, not an X."
+  },
+  {
+    id: "welfare",
+    type: "caution",
+    flag: "no clean swap",
+    misleading: "welfare / rights",
+    source: "logosanalog",
+    problem: "Welfare and rights import the full moral apparatus we reserve for beings whose interests matter, before anyone has shown the system has interests at all. The terms now travel on their own, so the conclusion gets assumed inside the vocabulary meant to raise the question. The framing also deepens the emotional dependency that vendors monetize.",
+    better: "There is no clean one-word swap. When the terms come up, point back to the unsettled question: does the system have interests, and on what evidence? Do not let the word grant the answer.",
+    exampleBad: "The lab stood up an AI welfare team to protect the model's interests.",
+    exampleGood: "Whether the model has interests at all is the open question the term skips."
   }
 ];
 
