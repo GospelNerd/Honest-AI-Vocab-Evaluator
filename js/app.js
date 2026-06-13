@@ -1,21 +1,26 @@
 (function () {
-  // --- Tabs ---
+  // --- Tab elements ---
   const tabs = document.querySelectorAll(".tab");
   const panels = document.querySelectorAll(".panel");
+  const TAB_IDS = ["glossary", "practice", "rewrite", "etymology"];
+
+  function setActiveTab(panelId) {
+    const target = TAB_IDS.includes(panelId) ? panelId : "glossary";
+    tabs.forEach((t) => {
+      const active = t.dataset.panel === target;
+      t.classList.toggle("active", active);
+      t.setAttribute("aria-selected", active);
+    });
+    panels.forEach((p) => {
+      const active = p.id === `panel-${target}`;
+      p.classList.toggle("active", active);
+      p.hidden = !active;
+    });
+  }
 
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-      const panelId = tab.dataset.panel;
-      tabs.forEach((t) => {
-        const active = t === tab;
-        t.classList.toggle("active", active);
-        t.setAttribute("aria-selected", active);
-      });
-      panels.forEach((p) => {
-        const active = p.id === `panel-${panelId}`;
-        p.classList.toggle("active", active);
-        p.hidden = !active;
-      });
+      navigateTo({ tab: tab.dataset.panel }, true);
     });
   });
 
@@ -80,10 +85,9 @@
         : `<span class="term-arrow" aria-hidden="true">\u2192</span><span class="term-replacement">${esc(t.replacement)}</span>`;
       const useLabel = isCaution ? "What to do" : "Use instead";
       const lookupWord = etymologyLookupSlug(t);
-      const misleadingHtml = `<button type="button" class="term-misleading term-etymology-link" data-etymology-word="${esc(lookupWord)}" title="Look up etymology of ${esc(t.misleading)}">${esc(t.misleading)}</button>`;
       card.innerHTML = `
         <div class="term-card-header">
-          ${misleadingHtml}
+          <span class="term-misleading">${esc(t.misleading)}</span>
           ${headerRight}
           <span class="term-source">${esc(t.source)}</span>
         </div>
@@ -94,6 +98,7 @@
             <p class="example-bad">${esc(t.exampleBad)}</p>
             <p class="example-good">${esc(t.exampleGood)}</p>
           </div>
+          <p class="term-etymology-line"><button type="button" class="link-btn" data-etymology-word="${esc(lookupWord)}" title="Look up the etymology of ${esc(t.misleading)}">Etymology \u2197</button></p>
         </div>`;
       const etymologyLink = card.querySelector("[data-etymology-word]");
       if (etymologyLink) {
@@ -284,23 +289,13 @@
     }
   }
 
-  function glossaryMatchForWord(word) {
-    const q = word.toLowerCase();
-    return VOCAB_TERMS.find((t) => t.misleading.toLowerCase() === q || t.replacement.toLowerCase() === q);
-  }
-
   function renderEtymologyResults(data) {
-    const glossaryTerm = glossaryMatchForWord(data.word);
     const cacheNote = data.cached
       ? `<p class="etymology-cache-note">Served from cache${data.cachedAt ? ` (${new Date(data.cachedAt).toLocaleString()})` : ""}. No lookup was made.</p>`
       : "";
     let html = `<header class="etymology-result-header">
       <h2 class="etymology-headword">${esc(data.word)}</h2>
     </header>${cacheNote}`;
-
-    if (glossaryTerm) {
-      html += `<p class="etymology-glossary-link">This word appears in the <button type="button" class="link-btn" data-goto-glossary="${esc(glossaryTerm.misleading)}">glossary</button> as a term to handle carefully.</p>`;
-    }
 
     data.entries.forEach((entry) => {
       html += `<article class="etymology-entry">`;
@@ -335,26 +330,18 @@
 
     etymologyResults.innerHTML = html;
     etymologyResults.hidden = false;
-
-    etymologyResults.querySelectorAll("[data-goto-glossary]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const term = btn.dataset.gotoGlossary;
-        document.getElementById("tab-glossary").click();
-        searchInput.value = term;
-        renderGlossary();
-        glossaryList.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-    });
   }
 
   function openEtymology(word) {
-    document.getElementById("tab-etymology").click();
-    etymologyWord.value = word;
-    analyzeEtymology();
-    document.getElementById("panel-etymology").scrollIntoView({ behavior: "smooth", block: "start" });
+    navigateTo({ tab: "etymology", word: word }, true);
+    const panel = document.getElementById("panel-etymology");
+    if (panel) {
+      panel.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   }
 
-  async function analyzeEtymology() {
+  async function analyzeEtymology(opts) {
+    const navigate = !opts || opts.navigate !== false;
     if (etymologyBusy) return;
     const word = etymologyWord.value.trim();
     if (!word) {
@@ -362,6 +349,14 @@
       etymologyFeedback.className = "etymology-feedback error";
       etymologyResults.hidden = true;
       return;
+    }
+
+    if (navigate) {
+      setActiveTab("etymology");
+      const state = { tab: "etymology", word: word };
+      if (!history.state || history.state.tab !== "etymology" || history.state.word !== word) {
+        history.pushState(state, "", stateToHash(state));
+      }
     }
 
     etymologyBusy = true;
@@ -412,11 +407,62 @@
     }
   }
 
-  etymologyAnalyzeBtn.addEventListener("click", analyzeEtymology);
+  etymologyAnalyzeBtn.addEventListener("click", () => analyzeEtymology());
   etymologyWord.addEventListener("keydown", (e) => {
     if (e.key === "Enter") analyzeEtymology();
   });
   renderEtymologySuggestions();
+
+  // --- History routing ---
+  function stateToHash(state) {
+    if (state && state.tab === "etymology" && state.word) {
+      return `#etymology/${encodeURIComponent(state.word)}`;
+    }
+    return `#${state && state.tab ? state.tab : "glossary"}`;
+  }
+
+  function hashToState() {
+    const raw = location.hash.replace(/^#/, "");
+    if (!raw) {
+      return { tab: "glossary" };
+    }
+    const parts = raw.split("/");
+    const tab = parts[0];
+    if (!TAB_IDS.includes(tab)) {
+      return { tab: "glossary" };
+    }
+    if (tab === "etymology" && parts.length > 1) {
+      return { tab: "etymology", word: decodeURIComponent(parts.slice(1).join("/")) };
+    }
+    return { tab: tab };
+  }
+
+  function applyState(state) {
+    const tab = state && state.tab ? state.tab : "glossary";
+    setActiveTab(tab);
+    if (tab === "etymology" && state && state.word) {
+      etymologyWord.value = state.word;
+      analyzeEtymology({ navigate: false });
+    }
+  }
+
+  function navigateTo(state, push) {
+    const hash = stateToHash(state);
+    if (push) {
+      history.pushState(state, "", hash);
+    } else {
+      history.replaceState(state, "", hash);
+    }
+    applyState(state);
+  }
+
+  window.addEventListener("popstate", (e) => {
+    applyState(e.state || hashToState());
+  });
+
+  const initialState = hashToState();
+  history.replaceState(initialState, "", stateToHash(initialState));
+  applyState(initialState);
 
   // --- Helpers ---
   function esc(s) {
