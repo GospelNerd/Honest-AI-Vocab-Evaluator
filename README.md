@@ -18,6 +18,18 @@ Some terms have no clean one-word swap (for example "artificial" and "welfare / 
 
 The first five terms (intelligence, hallucination, AGI, consciousness, agent) are drawn from "We Are Using the Wrong Words for AI" by Dr Sam Illingworth and The Strategic Linguist, published on Slow AI: https://theslowai.substack.com/p/wrong-words-for-ai . The remaining terms are additions from Logos Analog. Each entry carries a `source` field marking its provenance.
 
+## Why this exists
+
+The words we use for AI decide what we trust it with. When we say a model "understands," "reasons," or "wants" something, we hand it a standing it has not earned, and we quietly move responsibility off the people who built and deployed it. That confusion is not cosmetic. It shapes what gets believed, bought, and regulated.
+
+This tool sits at a convergence. The careless-vocabulary problem is one of the threads I write about on Logos Analog, from the angle of what these terms smuggle in and who ends up holding the accountability. Sam Illingworth and The Strategic Linguist put a clean, usable frame on it with their five words and replacements, which is what turned a recurring theme into something you could build. And people like Randy Fernando at the Center for Humane Technology have been making related points about how the language around AI trains our expectations of it. When several people working from different starting points keep landing on the same problem, that is usually a sign the problem is real.
+
+I built this to make the idea practical. A glossary you can search, a way to practice the swaps, and a rewrite drill that shows the careful version is real prose rather than a one-word substitution. The point is not to police anyone. It is to give writers, journalists, and practitioners a place to slow down and choose words that describe what these systems actually do.
+
+## Contributions
+
+The terms here are a starting point, not a closed list. If you have a word that misleads, a better replacement, or a sharper way to say why one misleads, contributions are welcome. Open an issue or a pull request. The glossary content is CC BY-SA, so anything you add stays open for the next person.
+
 ## Licensing
 
 This repository is dual-licensed.
