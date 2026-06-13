@@ -31,6 +31,7 @@
     <button class="tab active" role="tab" aria-selected="true" aria-controls="panel-glossary" id="tab-glossary" data-panel="glossary">Glossary</button>
     <button class="tab" role="tab" aria-selected="false" aria-controls="panel-practice" id="tab-practice" data-panel="practice">Practice</button>
     <button class="tab" role="tab" aria-selected="false" aria-controls="panel-rewrite" id="tab-rewrite" data-panel="rewrite">Rewrite</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="panel-etymology" id="tab-etymology" data-panel="etymology">Etymology</button>
   </nav>
 
   <main class="wrap">
@@ -69,6 +70,21 @@
       <p class="panel-intro">Each sentence leans on careless AI vocabulary, marked in oxblood. Read it, try rewriting it in your own words, then reveal a careful version to compare. The careful version is real prose, not a word-for-word swap, because the honest replacement usually changes the sentence around it.</p>
       <div id="rewrite-exercises" class="rewrite-list"></div>
       <button type="button" class="btn" id="rewrite-next">Another sentence</button>
+    </section>
+
+    <section id="panel-etymology" class="panel" role="tabpanel" aria-labelledby="tab-etymology" hidden>
+      <p class="panel-intro">Look up a word's etymology to see what history it carries into your writing. Words that sound neutral often import older meanings about minds, agency, or craft. Knowing the root helps you decide whether a term earns the weight you give it.</p>
+      <p class="etymology-notice">Powered by the <a href="https://www.etymonline.com/" rel="noopener noreferrer">Online Etymology Dictionary</a>. Results are cached on this server so repeat lookups do not hammer their site.</p>
+      <div class="etymology-card">
+        <div class="etymology-toolbar">
+          <label class="search-label" for="etymology-word">Word</label>
+          <input type="search" id="etymology-word" placeholder="e.g. intelligence, agent" autocomplete="off">
+          <button type="button" class="btn primary" id="etymology-analyze">Analyze</button>
+        </div>
+        <div class="etymology-suggestions" id="etymology-suggestions" aria-label="Suggested words"></div>
+        <div class="etymology-feedback" id="etymology-feedback" aria-live="polite"></div>
+        <div id="etymology-results" class="etymology-results" hidden></div>
+      </div>
     </section>
   </main>
 

@@ -1,0 +1,7 @@
+<?php
+return [
+    'persistent_cache' => true,
+    'cache_dir' => __DIR__ . '/cache',
+    'etymonline_base' => 'https://www.etymonline.com',
+    'user_agent' => 'HonestAIVocab/1.0 (+https://vocab.logosanalog.com)',
+];
