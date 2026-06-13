@@ -290,12 +290,9 @@
   }
 
   function renderEtymologyResults(data) {
-    const cacheNote = data.cached
-      ? `<p class="etymology-cache-note">Served from cache${data.cachedAt ? ` (${new Date(data.cachedAt).toLocaleString()})` : ""}. No lookup was made.</p>`
-      : "";
     let html = `<header class="etymology-result-header">
       <h2 class="etymology-headword">${esc(data.word)}</h2>
-    </header>${cacheNote}`;
+    </header>`;
 
     data.entries.forEach((entry) => {
       html += `<article class="etymology-entry">`;
