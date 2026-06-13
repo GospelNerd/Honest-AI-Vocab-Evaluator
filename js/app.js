@@ -327,7 +327,10 @@
       const sourceLink = data.sourceUrl
         ? `<a href="${esc(data.sourceUrl)}" rel="noopener noreferrer">${sourceLabel}</a>`
         : "";
-      html += `<p class="etymology-attribution">${esc(data.attribution)}${sourceLink ? ` \u00b7 ${sourceLink}` : ""}</p>`;
+      const etymonlineUrl = `https://www.etymonline.com/word/${encodeURIComponent(data.word)}`;
+      const etymonlineLink = `<a href="${esc(etymonlineUrl)}" rel="noopener noreferrer">Compare on Etymonline</a>`;
+      const links = [sourceLink, etymonlineLink].filter(Boolean).join(" \u00b7 ");
+      html += `<p class="etymology-attribution">${esc(data.attribution)}${links ? ` \u00b7 ${links}` : ""}</p>`;
     }
 
     etymologyResults.innerHTML = html;
