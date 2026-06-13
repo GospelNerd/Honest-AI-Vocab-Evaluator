@@ -292,7 +292,7 @@
   function renderEtymologyResults(data) {
     const glossaryTerm = glossaryMatchForWord(data.word);
     const cacheNote = data.cached
-      ? `<p class="etymology-cache-note">Served from cache${data.cachedAt ? ` (${new Date(data.cachedAt).toLocaleString()})` : ""}. No API call was made.</p>`
+      ? `<p class="etymology-cache-note">Served from cache${data.cachedAt ? ` (${new Date(data.cachedAt).toLocaleString()})` : ""}. No lookup was made.</p>`
       : "";
     let html = `<header class="etymology-result-header">
       <h2 class="etymology-headword">${esc(data.word)}</h2>
@@ -303,8 +303,10 @@
     }
 
     data.entries.forEach((entry) => {
-      html += `<article class="etymology-entry">
-        <h3 class="etymology-category">${esc(entry.lexicalCategory)}</h3>`;
+      html += `<article class="etymology-entry">`;
+      if (entry.lexicalCategory) {
+        html += `<h3 class="etymology-category">${esc(entry.lexicalCategory)}</h3>`;
+      }
       if (entry.etymologies.length) {
         html += `<div class="etymology-block">
           <p class="etymology-label">Etymology</p>
@@ -321,10 +323,11 @@
     });
 
     if (data.attribution) {
+      const sourceLabel = data.source === "wiktionary" ? "View on Wiktionary" : "View source";
       const sourceLink = data.sourceUrl
-        ? `<a href="${esc(data.sourceUrl)}" rel="noopener noreferrer">View on etymonline.com</a>`
+        ? `<a href="${esc(data.sourceUrl)}" rel="noopener noreferrer">${sourceLabel}</a>`
         : "";
-      html += `<p class="etymology-attribution">${esc(data.attribution)}${sourceLink ? ` · ${sourceLink}` : ""}</p>`;
+      html += `<p class="etymology-attribution">${esc(data.attribution)}${sourceLink ? ` \u00b7 ${sourceLink}` : ""}</p>`;
     }
 
     etymologyResults.innerHTML = html;
@@ -360,7 +363,7 @@
 
     etymologyBusy = true;
     etymologyAnalyzeBtn.disabled = true;
-    etymologyFeedback.textContent = "Looking up etymology…";
+    etymologyFeedback.textContent = "Looking up etymology\u2026";
     etymologyFeedback.className = "etymology-feedback loading";
     etymologyResults.hidden = true;
 

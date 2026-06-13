@@ -3,7 +3,7 @@ header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: private, max-age=300');
 
 require __DIR__ . '/cache.php';
-require __DIR__ . '/etymonline.php';
+require __DIR__ . '/wiktionary.php';
 
 $config = require __DIR__ . '/config.php';
 if (!$config) {
@@ -17,7 +17,7 @@ if ($word === '' || !preg_match('/^[a-zA-Z][a-zA-Z0-9\'-]{0,49}$/', $word)) {
 }
 
 $wordId = strtolower($word);
-$cacheProvider = 'etymonline';
+$cacheProvider = 'wiktionary';
 $cachedRecord = etymology_cache_read($config, $cacheProvider, $wordId);
 if ($cachedRecord && isset($cachedRecord['httpStatus'], $cachedRecord['response'])) {
     $cachedAt = $cachedRecord['cachedAt'] ?? null;
@@ -29,7 +29,7 @@ if ($cachedRecord && isset($cachedRecord['httpStatus'], $cachedRecord['response'
     etymology_send_json((int) $cachedRecord['httpStatus'], $response);
 }
 
-$result = etymonline_lookup($config, $wordId);
+$result = wiktionary_lookup($config, $wordId);
 $cachedAt = gmdate('c');
 
 if (!$result['ok']) {

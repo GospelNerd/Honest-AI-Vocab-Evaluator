@@ -11,15 +11,15 @@ Four modes:
 - Glossary: misused AI terms, why each one misleads, and a more careful word to use instead.
 - Practice: type the careful replacement for a given term.
 - Rewrite: read a sentence built on careless vocabulary, try your own rewrite, then reveal a careful prose version to compare.
-- Etymology: look up a word's origin via the [Online Etymology Dictionary](https://www.etymonline.com/).
+- Etymology: look up a word's origin via [Wiktionary](https://en.wiktionary.org/), licensed CC BY-SA.
 
 ## Etymology lookup
 
-The Etymology tab uses a PHP proxy at `api/etymology.php` that fetches and parses [etymonline.com](https://www.etymonline.com/). The approach is inspired by [matt-wittmann/etymonline_rest_api](https://github.com/matt-wittmann/etymonline_rest_api), a 2014 Scala scraper; that repo's HTML selectors no longer match the current site, so this project uses a fresh PHP parser instead of running the old Spray service.
+The Etymology tab uses a PHP proxy at `api/etymology.php` that queries [Wiktionary](https://en.wiktionary.org/) through the MediaWiki parse API and extracts the etymology section for a word. Wiktionary's text is licensed CC BY-SA, the same license as this project's glossary content, so the results can be displayed and reused with attribution.
 
-Results are cached on disk (`api/cache/etymonline/`) and in the browser session so repeat lookups do not re-fetch the site. Optional config lives in `api/config.local.php` (gitignored); copy from `api/config.local.php.example` if needed.
+Results are cached on disk (`api/cache/wiktionary/`) and in the browser session so repeat lookups do not re-fetch. Optional config lives in `api/config.local.php` (gitignored); copy from `api/config.local.php.example` if needed.
 
-Etymonline has no public API. Be respectful: cache aggressively, link back to the source, and do not bulk-scrape.
+Be a good Wikimedia citizen: cache results, send a descriptive User-Agent, and link back to the source page.
 
 Some terms have no clean one-word swap (for example "artificial" and "welfare / rights"). These appear in the Glossary flagged for careful handling, with guidance instead of a replacement.
 

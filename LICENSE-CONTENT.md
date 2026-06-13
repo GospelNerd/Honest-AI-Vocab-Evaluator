@@ -13,6 +13,10 @@ The terms intelligence, hallucination, AGI, consciousness, and agent, and their 
 
 Additional terms and all entry wording in this repository are by Justin Philip Flores / Logos Analog.
 
+## Etymology data
+
+The Etymology feature retrieves word origins from Wiktionary (https://en.wiktionary.org), whose text is licensed CC BY-SA. Etymology results shown by this tool are therefore CC BY-SA and are attributed to Wiktionary at the point of display. That content is authored by Wiktionary contributors, not by this project.
+
 ## Scope
 
 This content license applies only to the glossary content described above. All code in this repository is licensed separately under the GNU Affero General Public License v3.0. See `LICENSE`.
