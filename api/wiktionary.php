@@ -80,8 +80,24 @@ function wiktionary_clean_text(string $html): string
     $text = html_entity_decode(strip_tags((string) $html), ENT_QUOTES | ENT_HTML5, 'UTF-8');
     $text = preg_replace('/\[\s*edit\s*\]/iu', '', $text);
     $text = preg_replace('/\[\d+\]/u', '', $text);
+    $text = preg_replace('/[↑→←]/u', '', $text);
     $text = preg_replace('/\s+/u', ' ', $text);
     return trim((string) $text);
+}
+
+function wiktionary_is_etymology_paragraph(string $text): bool
+{
+    if ($text === '' || strlen($text) < 10) {
+        return false;
+    }
+    if (preg_match('/^IPA\b/i', $text)) {
+        return false;
+    }
+    // Headword gloss lines such as "bank ( countable and uncountable , plural banks )".
+    if (preg_match('/^[\p{L}][\p{L}0-9\x{0027}\x{2032}\-]*\s+\(/u', $text)) {
+        return false;
+    }
+    return true;
 }
 
 function wiktionary_heading_level(string $tag): int
@@ -183,7 +199,7 @@ function wiktionary_extract_etymologies(string $html): array
 
         if ($capturing && $current !== null && strtolower($node->tagName) === 'p') {
             $text = wiktionary_clean_text(wiktionary_inner_html($node));
-            if ($text !== '' && strlen($text) >= 10) {
+            if (wiktionary_is_etymology_paragraph($text)) {
                 $current['etymologies'][] = $text;
             }
         }
