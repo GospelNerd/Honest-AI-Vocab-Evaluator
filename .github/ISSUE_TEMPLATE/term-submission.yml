@@ -1,0 +1,72 @@
+name: Suggest a term
+description: Propose a new AI vocabulary term, a better replacement, or a sharper explanation.
+title: "[Term]: "
+labels: ["term-submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping sharpen the glossary.
+
+        This tool is about choosing words that describe what AI systems actually do, without importing more meaning than is warranted. The most useful submissions propose a clear, careful replacement and make one clean point about why the common word misleads. Observation beats venting.
+  - type: input
+    id: misleading
+    attributes:
+      label: The misleading term
+      description: The word or phrase as it is commonly used about AI.
+      placeholder: understands
+    validations:
+      required: true
+  - type: input
+    id: replacement
+    attributes:
+      label: A more careful replacement
+      description: A word or short phrase that describes what is actually happening. If there is no clean one-word swap, write "no clean swap" and explain what to do instead in the next field.
+      placeholder: matches
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Why it misleads
+      description: What unearned meaning does the common term smuggle in? Keep it to one clean point.
+    validations:
+      required: true
+  - type: input
+    id: example_bad
+    attributes:
+      label: Example sentence, careless
+      description: A sentence using the misleading term the common way.
+      placeholder: The model understands the user's intent.
+    validations:
+      required: false
+  - type: input
+    id: example_good
+    attributes:
+      label: Example sentence, careful
+      description: The same idea rewritten with the careful term.
+      placeholder: The model matches the prompt to patterns in its training data.
+    validations:
+      required: false
+  - type: input
+    id: source
+    attributes:
+      label: Source or credit
+      description: If this comes from someone else's work, credit them with a link. If it is your own and you would like credit, add your name or handle.
+      placeholder: Jane Doe, https://example.com/post
+    validations:
+      required: false
+  - type: checkboxes
+    id: license
+    attributes:
+      label: License
+      options:
+        - label: I agree my contribution may be published under CC BY-SA 4.0, the same license as the rest of the glossary content.
+          required: true
+  - type: checkboxes
+    id: good_faith
+    attributes:
+      label: Good faith
+      options:
+        - label: This is a serious suggestion meant to make the glossary more accurate.
+          required: true
