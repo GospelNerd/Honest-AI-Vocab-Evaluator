@@ -36,7 +36,7 @@
 
   <main class="wrap">
     <section id="panel-glossary" class="panel active" role="tabpanel" aria-labelledby="tab-glossary">
-      <p class="panel-intro">Browse the terms below, or <a href="https://github.com/Himalogic/Honest-AI-Vocab-Evaluator/issues/new?template=term-submission.yml" target="_blank" rel="noopener">suggest a term ↗</a> to help sharpen the glossary.</p>
+      <p class="panel-intro">Browse the terms below, or <button type="button" class="link-btn" id="suggest-open">suggest a term ↗</button> to help sharpen the glossary.</p>
       <div class="panel-toolbar">
         <label class="search-label" for="glossary-search">Search terms</label>
         <input type="search" id="glossary-search" placeholder="e.g. hallucination, agent" autocomplete="off">
@@ -80,7 +80,7 @@
         <div class="etymology-toolbar">
           <label class="search-label" for="etymology-word">Word</label>
           <input type="search" id="etymology-word" placeholder="e.g. intelligence, agent" autocomplete="off">
-          <button type="button" class="btn primary" id="etymology-analyze">Analyze</button>
+          <button type="button" class="btn primary" id="etymology-analyze">Search</button>
         </div>
         <div class="etymology-suggestions" id="etymology-suggestions" aria-label="Suggested words"></div>
         <div class="etymology-feedback" id="etymology-feedback" aria-live="polite"></div>
@@ -97,7 +97,54 @@
     </div>
   </footer>
 
+  <dialog id="suggest-dialog" class="suggest-dialog" aria-labelledby="suggest-title">
+    <form id="suggest-form" class="suggest-form">
+      <h2 id="suggest-title">Suggest a term</h2>
+      <p class="suggest-intro">Fill in what you can. When you continue, we hand these answers to GitHub with the fields already filled in. You sign in or make a free account, check two quick agreement boxes, and submit. Nothing is sent from this page.</p>
+
+      <label class="suggest-field">
+        <span>The misleading term <span class="suggest-req">*</span></span>
+        <input type="text" id="sg-misleading" placeholder="e.g. understands" autocomplete="off" required>
+      </label>
+
+      <label class="suggest-field">
+        <span>A more careful replacement <span class="suggest-req">*</span></span>
+        <input type="text" id="sg-replacement" placeholder="e.g. matches" autocomplete="off" required>
+        <small>If there is no clean one-word swap, write "no clean swap" and explain below.</small>
+      </label>
+
+      <label class="suggest-field">
+        <span>Why it misleads <span class="suggest-req">*</span></span>
+        <textarea id="sg-problem" rows="3" placeholder="What unearned meaning does the common term smuggle in? One clean point." required></textarea>
+      </label>
+
+      <label class="suggest-field">
+        <span>Example sentence, careless</span>
+        <input type="text" id="sg-example-bad" placeholder="The model understands the user's intent." autocomplete="off">
+      </label>
+
+      <label class="suggest-field">
+        <span>Example sentence, careful</span>
+        <input type="text" id="sg-example-good" placeholder="The model matches the prompt to patterns in its training data." autocomplete="off">
+      </label>
+
+      <label class="suggest-field">
+        <span>Source or credit</span>
+        <input type="text" id="sg-source" placeholder="Your name or handle, or a link if it comes from elsewhere" autocomplete="off">
+      </label>
+
+      <p class="suggest-note">The license and good-faith agreement boxes are checked on GitHub when you submit.</p>
+      <p class="suggest-error" id="suggest-error" role="alert" hidden></p>
+
+      <div class="suggest-actions">
+        <button type="button" class="btn" id="suggest-cancel">Cancel</button>
+        <button type="submit" class="btn primary" id="suggest-continue">Continue to GitHub ↗</button>
+      </div>
+    </form>
+  </dialog>
+
   <script src="js/terms.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/suggest.js"></script>
 </body>
 </html>

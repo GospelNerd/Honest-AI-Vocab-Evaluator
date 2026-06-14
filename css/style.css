@@ -306,6 +306,12 @@ main { padding: 0 0 0; }
 .example-bad::before { content: "Avoid: "; font-weight: 600; }
 .example-good::before { content: "Prefer: "; font-weight: 600; }
 
+.term-etymology-line {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
 /* Buttons */
 .btn {
   font-size: 0.88rem;
@@ -615,9 +621,100 @@ hr {
   border-top: 1px solid var(--border);
 }
 
+/* Suggest a term dialog */
+.suggest-dialog {
+  width: min(34rem, calc(100vw - 2rem));
+  max-height: calc(100vh - 4rem);
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--ink-elevated);
+  color: var(--paper);
+  overflow: auto;
+}
+
+.suggest-dialog::backdrop {
+  background: rgba(20, 18, 18, 0.6);
+}
+
+.suggest-form {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.suggest-form h2 {
+  font-size: 1.25rem;
+  margin: 0;
+  color: var(--paper);
+}
+
+.suggest-intro {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.suggest-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.suggest-field > span { color: var(--paper); }
+
+.suggest-field small {
+  font-weight: 400;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.suggest-req { color: var(--accent); }
+
+.suggest-field input,
+.suggest-field textarea {
+  font: inherit;
+  font-weight: 400;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--paper);
+  background: var(--ink);
+  resize: vertical;
+}
+
+.suggest-field input::placeholder,
+.suggest-field textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+.suggest-note {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.suggest-error {
+  font-size: 0.85rem;
+  color: var(--accent);
+  margin: 0;
+}
+
+.suggest-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
 @media (max-width: 480px) {
   html { font-size: 16px; }
   .practice-term { font-size: 1.6rem; }
   .practice-input-row { flex-direction: column; }
   .etymology-toolbar { flex-direction: column; align-items: stretch; }
+  .suggest-actions { flex-direction: column-reverse; }
 }
