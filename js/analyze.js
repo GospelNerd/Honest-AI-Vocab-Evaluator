@@ -95,6 +95,10 @@
     return t && t.type !== "caution";
   }
 
+  function swapTextFor(t) {
+    return (t && (t.swapText || t.replacement)) || "";
+  }
+
   function assignNumbers(hits) {
     const map = new Map();
     let n = 0;
@@ -160,11 +164,12 @@
       return;
     }
     const num = hitNumbers.get(hit.id);
+    const swap = swapTextFor(t);
     const careful = hasCleanSwap(t)
       ? `<p class="analyze-detail-swap-label">use instead</p>
-         <div class="analyze-detail-careful">${esc(t.replacement)}</div>
+         <div class="analyze-detail-careful">${esc(swap)}</div>
          <div class="analyze-detail-actions">
-           <button type="button" class="btn careful" data-action="use" data-term-id="${esc(t.id)}">Use “${esc(t.replacement)}”</button>
+           <button type="button" class="btn careful" data-action="use" data-term-id="${esc(t.id)}">Use “${esc(swap)}”</button>
            <button type="button" class="btn" data-action="ignore" data-term-id="${esc(t.id)}">Ignore</button>
            <button type="button" class="btn" data-action="glossary" data-term-id="${esc(t.id)}">↗</button>
          </div>`
@@ -216,7 +221,7 @@
       row.className = "analyze-finding" + (index === selectedHitIndex ? " active" : "");
       const swap = hasCleanSwap(t)
         ? `<span class="glossary-row-arrow">→</span>
-           <span class="analyze-finding-careful">${esc(t.replacement)}</span>`
+           <span class="analyze-finding-careful">${esc(swapTextFor(t))}</span>`
         : `<span class="badge-no-swap">no clean swap</span>`;
       row.innerHTML = `
         <span class="analyze-finding-num">${num}</span>
@@ -302,7 +307,7 @@
       if (h.id !== termId || ignoredIds.has(h.id)) return;
       const start = h.start + delta;
       const end = h.end + delta;
-      const rep = t.replacement;
+      const rep = swapTextFor(t);
       text = replaceWordAt(text, start, end, rep);
       delta += rep.length - (end - start);
     });
@@ -332,7 +337,7 @@
         if (h.id !== id) return;
         const start = h.start + delta;
         const end = h.end + delta;
-        const rep = t.replacement;
+        const rep = swapTextFor(t);
         text = replaceWordAt(text, start, end, rep);
         delta += rep.length - (end - start);
       });

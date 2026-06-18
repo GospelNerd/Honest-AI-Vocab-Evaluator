@@ -31,7 +31,7 @@
   color-scheme: light;
 }
 
-[data-dark="1"] {
+html[data-dark="1"] {
   --bg: #1b1815;
   --panel: #211d19;
   --card: #2a2620;

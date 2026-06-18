@@ -1,5 +1,6 @@
-// Optional per-term field for Etymology “How its use shifted” timelines:
-// useShift: [{ when: "c. 1600", title: "…", body: "…" }, …]
+// Optional per-term fields:
+// useShift: [{ when: "c. 1600", title: "…", body: "…" }, …]  — Etymology timelines
+// swapText: "…"  — literal Analyze substitution when replacement alone is ungrammatical
 const VOCAB_TERMS = [
   {
     id: "intelligence",
@@ -290,8 +291,8 @@ const VOCAB_TERMS = [
   {
     id: "conscious",
     misleading: "conscious",
-    replacement: "mimicking",
-    replacementAlternatives: ["performing", "simulating"],
+    replacement: "mimicking consciousness",
+    replacementAlternatives: ["performing consciousness", "simulating consciousness"],
     source: "Logos Analog",
     problem: "Conscious imports the full moral standing we give to beings with an inner life, on the strength of fluent output. The adjective rides in where the noun would be challenged. A system optimized to sound like a mind will pass the surface tests a mind would pass.",
     better: "Read it as the surface it is. The model performs the marks of consciousness. Whether there is anything behind the performance is the question the word skips.",

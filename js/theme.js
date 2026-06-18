@@ -24,7 +24,9 @@
   }
 
   function apply(dark) {
-    app.dataset.dark = dark ? "1" : "0";
+    const on = dark ? "1" : "0";
+    document.documentElement.dataset.dark = on;
+    if (app) app.dataset.dark = on;
     document.documentElement.style.colorScheme = dark ? "dark" : "light";
     const glyph = document.getElementById("theme-glyph");
     const label = document.getElementById("theme-label");
@@ -41,7 +43,7 @@
   const toggle = document.getElementById("theme-toggle");
   if (toggle) {
     toggle.addEventListener("click", () => {
-      const next = app.dataset.dark !== "1";
+      const next = document.documentElement.dataset.dark !== "1";
       apply(next);
       writeStored(next);
     });
