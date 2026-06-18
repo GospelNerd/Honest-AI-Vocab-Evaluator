@@ -1,20 +1,24 @@
 (function () {
-  // Self-contained text analyzer. Lives apart from app.js so a bug here stays
-  // contained to the Analyze panel and cannot break the other tabs.
   const input = document.getElementById("analyze-input");
   const runBtn = document.getElementById("analyze-run");
   const clearBtn = document.getElementById("analyze-clear");
+  const pasteBtn = document.getElementById("analyze-paste");
+  const applyAllBtn = document.getElementById("analyze-apply-all");
   const output = document.getElementById("analyze-output");
+  const outputWrap = document.getElementById("analyze-output-wrap");
   const summary = document.getElementById("analyze-summary");
   const findings = document.getElementById("analyze-findings");
+  const detail = document.getElementById("analyze-detail");
+  const marginTitle = document.getElementById("margin-title");
+  const stats = document.getElementById("analyze-stats");
+  const statTerms = document.getElementById("stat-terms");
+  const statWords = document.getElementById("stat-words");
+  const statCarefulLabel = document.getElementById("stat-careful-label");
+  const statCarefulBar = document.getElementById("stat-careful-bar");
   if (!input || !runBtn || !output || !summary || !findings) return;
 
   const TERMS = typeof VOCAB_TERMS !== "undefined" ? VOCAB_TERMS : [];
 
-  // Tokens that count as a machine subject or possessor. "it"/"its" are
-  // included deliberately: in AI writing the pronoun almost always points at
-  // the system. "agent" is intentionally excluded to avoid "travel agent"
-  // style false positives.
   const CUES = new Set([
     "model", "models", "system", "systems", "ai", "llm", "llms",
     "chatbot", "chatbots", "bot", "bots", "gpt", "chatgpt", "claude",
@@ -23,11 +27,8 @@
     "transformer", "it", "its"
   ]);
 
-  // A clause/sentence boundary. The cue search stops here so a subject is not
-  // borrowed across a sentence break or a semicolon.
   const BOUNDARY = /[.!?;]/;
 
-  // form -> { id, scan, neg:Set, negNext:Set }
   const FORM_MAP = new Map();
   const TERM_BY_ID = new Map();
   TERMS.forEach((t) => {
@@ -38,22 +39,25 @@
     t.forms.forEach((f) => FORM_MAP.set(f.toLowerCase(), { id: t.id, scan: t.scan, neg: neg, negNext: negNext }));
   });
 
+  let lastHits = [];
+  let hitNumbers = new Map();
+  let selectedHitIndex = -1;
+  let ignoredIds = new Set();
+  let resolvedIds = new Set();
+
   function tokenize(text) {
     const tokens = [];
     const re = /[A-Za-z]+/g;
     let m;
     while ((m = re.exec(text))) {
-      tokens.push({ lower: m[0].toLowerCase(), start: m.index, end: m.index + m[0].length });
+      tokens.push({ lower: m[0].toLowerCase(), start: m.index, end: m.index + m[0].length, raw: m[0] });
     }
     return tokens;
   }
 
-  // A gated term flags only when a machine cue appears earlier in the same
-  // sentence. Walking back token by token, we stop at the first sentence or
-  // clause boundary so the subject of one sentence does not leak into the next.
   function cuePrecedes(text, tokens, i) {
     for (let j = i - 1; j >= 0; j--) {
-      if (BOUNDARY.test(text.slice(tokens[j].end, tokens[j + 1].start))) break;
+      if (BOUNDARY.test(text.slice(tokens[j].end, tokens[j + 1] ? tokens[j + 1].start : tokens[j].end))) break;
       if (CUES.has(tokens[j].lower)) return true;
     }
     return false;
@@ -66,12 +70,10 @@
     for (let i = 0; i < tokens.length; i++) {
       const info = FORM_MAP.get(tokens[i].lower);
       if (!info) continue;
-      // Suppress when the neighbouring token marks a known non-AI sense
-      // (machine learning, belief state, decision tree, lies within, etc.).
       if (i > 0 && info.neg.has(tokens[i - 1].lower)) continue;
       if (i < tokens.length - 1 && info.negNext.has(tokens[i + 1].lower)) continue;
       if (info.scan === "gated" && !cuePrecedes(text, tokens, i)) continue;
-      hits.push({ start: tokens[i].start, end: tokens[i].end, id: info.id });
+      hits.push({ start: tokens[i].start, end: tokens[i].end, id: info.id, word: text.slice(tokens[i].start, tokens[i].end) });
       counts.set(info.id, (counts.get(info.id) || 0) + 1);
     }
     return { hits: hits, counts: counts };
@@ -83,54 +85,287 @@
     return d.innerHTML;
   }
 
-  function renderHighlighted(text, hits) {
+  function wordCount(text) {
+    const t = text.trim();
+    if (!t) return 0;
+    return t.split(/\s+/).length;
+  }
+
+  function hasCleanSwap(t) {
+    return t && t.type !== "caution";
+  }
+
+  function assignNumbers(hits) {
+    const map = new Map();
+    let n = 0;
+    const byIndex = [];
+    hits.forEach((h, idx) => {
+      if (ignoredIds.has(h.id)) {
+        byIndex[idx] = null;
+        return;
+      }
+      if (!map.has(h.id)) {
+        n += 1;
+        map.set(h.id, n);
+      }
+      byIndex[idx] = map.get(h.id);
+    });
+    hitNumbers = map;
+    return byIndex;
+  }
+
+  function renderHighlighted(text, hits, numbers) {
     let html = "";
     let pos = 0;
-    hits.forEach((h) => {
+    hits.forEach((h, i) => {
       html += esc(text.slice(pos, h.start));
-      html += `<mark class="analyze-hit" data-term-id="${esc(h.id)}">${esc(text.slice(h.start, h.end))}</mark>`;
+      const num = numbers[i];
+      if (num == null) {
+        html += esc(text.slice(h.start, h.end));
+      } else {
+        const selected = i === selectedHitIndex ? " selected" : "";
+        html += `<mark class="analyze-hit${selected}" data-hit-index="${i}" data-term-id="${esc(h.id)}">${esc(text.slice(h.start, h.end))}<sup>${num}</sup></mark>`;
+      }
       pos = h.end;
     });
     html += esc(text.slice(pos));
     return html;
   }
 
+  function uniqueActiveTermIds(hits) {
+    const ids = new Set();
+    hits.forEach((h) => {
+      if (!ignoredIds.has(h.id)) ids.add(h.id);
+    });
+    return ids;
+  }
+
+  function hasSwappable(hits) {
+    const ids = uniqueActiveTermIds(hits);
+    for (const id of ids) {
+      const t = TERM_BY_ID.get(id);
+      if (t && hasCleanSwap(t) && !resolvedIds.has(id)) return true;
+    }
+    return false;
+  }
+
+  function renderDetail(hit) {
+    if (!hit || !detail) {
+      if (detail) detail.hidden = true;
+      return;
+    }
+    const t = TERM_BY_ID.get(hit.id);
+    if (!t) {
+      detail.hidden = true;
+      return;
+    }
+    const num = hitNumbers.get(hit.id);
+    const careful = hasCleanSwap(t)
+      ? `<p class="analyze-detail-swap-label">use instead</p>
+         <div class="analyze-detail-careful">${esc(t.replacement)}</div>
+         <div class="analyze-detail-actions">
+           <button type="button" class="btn careful" data-action="use" data-term-id="${esc(t.id)}">Use “${esc(t.replacement)}”</button>
+           <button type="button" class="btn" data-action="ignore" data-term-id="${esc(t.id)}">Ignore</button>
+           <button type="button" class="btn" data-action="glossary" data-term-id="${esc(t.id)}">↗</button>
+         </div>`
+      : `<span class="badge-no-swap">no clean swap</span>
+         <div class="analyze-detail-actions">
+           <button type="button" class="btn" data-action="ignore" data-term-id="${esc(t.id)}">Ignore</button>
+           <button type="button" class="btn" data-action="glossary" data-term-id="${esc(t.id)}">↗</button>
+         </div>`;
+
+    detail.innerHTML = `
+      <div class="analyze-detail-head">
+        <span class="analyze-detail-num">${num}</span>
+        <span class="mono-muted">${esc(t.source)}</span>
+      </div>
+      <div class="analyze-detail-careless">${esc(hit.word)}</div>
+      ${careful}
+      <p class="analyze-detail-why">${esc(t.problem)}</p>`;
+    detail.hidden = false;
+
+    detail.querySelectorAll("[data-action]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const action = btn.dataset.action;
+        const id = btn.dataset.termId;
+        if (action === "use") applySwapForTerm(id);
+        else if (action === "ignore") ignoreTerm(id);
+        else if (action === "glossary" && window.HAVE_NAV) {
+          window.HAVE_NAV.navigateTo({ tab: "glossary", term: id }, true);
+        }
+      });
+    });
+  }
+
+  function renderFindings(hits) {
+    const numbers = assignNumbers(hits);
+    const seen = new Map();
+    hits.forEach((h, i) => {
+      if (ignoredIds.has(h.id)) return;
+      if (!seen.has(h.id)) seen.set(h.id, { hit: h, index: i, num: numbers[i] });
+    });
+
+    const items = [...seen.values()].sort((a, b) => a.num - b.num);
+    marginTitle.textContent = items.length ? `Editor's marks — ${items.length}` : "Editor's marks";
+
+    findings.innerHTML = "";
+    items.forEach(({ hit, index, num }) => {
+      const t = TERM_BY_ID.get(hit.id);
+      if (!t) return;
+      const row = document.createElement("div");
+      row.className = "analyze-finding" + (index === selectedHitIndex ? " active" : "");
+      const swap = hasCleanSwap(t)
+        ? `<span class="glossary-row-arrow">→</span>
+           <span class="analyze-finding-careful">${esc(t.replacement)}</span>`
+        : `<span class="badge-no-swap">no clean swap</span>`;
+      row.innerHTML = `
+        <span class="analyze-finding-num">${num}</span>
+        <div>
+          <div class="analyze-finding-words">
+            <span class="analyze-finding-careless">${esc(hit.word)}</span>
+            ${swap}
+          </div>
+          <p class="analyze-finding-why">${esc(t.problem)}</p>
+        </div>`;
+      row.addEventListener("click", () => {
+        selectedHitIndex = index;
+        renderAll();
+      });
+      findings.appendChild(row);
+    });
+
+    if (selectedHitIndex >= 0 && hits[selectedHitIndex]) {
+      renderDetail(hits[selectedHitIndex]);
+    } else if (items.length) {
+      selectedHitIndex = items[0].index;
+      renderDetail(hits[selectedHitIndex]);
+    } else {
+      renderDetail(null);
+    }
+  }
+
+  function renderAll() {
+    const text = input.value;
+    const numbers = assignNumbers(lastHits);
+    if (lastHits.length) {
+      output.innerHTML = renderHighlighted(text, lastHits, numbers);
+      outputWrap.hidden = false;
+      input.hidden = true;
+    } else {
+      outputWrap.hidden = true;
+      output.innerHTML = "";
+      input.hidden = false;
+    }
+    renderFindings(lastHits);
+    updateStats(lastHits);
+  }
+
+  function updateStats(hits) {
+    const activeIds = uniqueActiveTermIds(hits);
+    const loaded = activeIds.size;
+    const remaining = [...activeIds].filter((id) => !resolvedIds.has(id)).length;
+    const words = wordCount(input.value);
+
+    if (hits.length === 0) {
+      stats.hidden = true;
+      applyAllBtn.disabled = true;
+      return;
+    }
+
+    stats.hidden = false;
+    statTerms.textContent = String(loaded);
+    statWords.textContent = String(words);
+
+    const addressed = loaded - remaining;
+    statCarefulLabel.textContent = remaining === 0
+      ? "All loaded terms addressed"
+      : `${remaining} of ${loaded} still carry unearned meaning`;
+
+    statCarefulBar.innerHTML = `
+      <span class="analyze-meter-careful" style="flex:${Math.max(addressed, 0.001)}"></span>
+      <span class="analyze-meter-ox" style="flex:${Math.max(remaining, 0.001)}"></span>`;
+
+    applyAllBtn.disabled = !hasSwappable(hits);
+  }
+
+  function replaceWordAt(text, start, end, replacement) {
+    return text.slice(0, start) + replacement + text.slice(end);
+  }
+
+  function applySwapForTerm(termId) {
+    const t = TERM_BY_ID.get(termId);
+    if (!t || !hasCleanSwap(t)) return;
+    let text = input.value;
+    let delta = 0;
+    const hits = analyze(text).hits;
+    hits.forEach((h) => {
+      if (h.id !== termId || ignoredIds.has(h.id)) return;
+      const start = h.start + delta;
+      const end = h.end + delta;
+      const rep = t.replacement;
+      text = replaceWordAt(text, start, end, rep);
+      delta += rep.length - (end - start);
+    });
+    input.value = text;
+    resolvedIds.add(termId);
+    selectedHitIndex = -1;
+    run();
+  }
+
+  function ignoreTerm(termId) {
+    ignoredIds.add(termId);
+    selectedHitIndex = -1;
+    run();
+  }
+
+  function applyAllSwaps() {
+    let text = input.value;
+    const ids = [...uniqueActiveTermIds(analyze(text).hits)].filter((id) => {
+      const t = TERM_BY_ID.get(id);
+      return t && hasCleanSwap(t) && !resolvedIds.has(id);
+    });
+    ids.forEach((id) => {
+      const t = TERM_BY_ID.get(id);
+      let delta = 0;
+      const hits = analyze(text).hits;
+      hits.forEach((h) => {
+        if (h.id !== id) return;
+        const start = h.start + delta;
+        const end = h.end + delta;
+        const rep = t.replacement;
+        text = replaceWordAt(text, start, end, rep);
+        delta += rep.length - (end - start);
+      });
+      resolvedIds.add(id);
+    });
+    input.value = text;
+    selectedHitIndex = -1;
+    run();
+  }
+
   function run() {
     const text = input.value;
     if (!text.trim()) {
       summary.textContent = "Paste some text to analyze.";
-      output.hidden = true;
+      outputWrap.hidden = true;
       output.innerHTML = "";
       findings.innerHTML = "";
+      if (detail) detail.hidden = true;
+      stats.hidden = true;
+      lastHits = [];
+      input.hidden = false;
+      applyAllBtn.disabled = true;
+      marginTitle.textContent = "Editor's marks";
       return;
     }
 
     const result = analyze(text);
-    const hits = result.hits;
-    const counts = result.counts;
+    lastHits = result.hits;
 
-    if (hits.length) {
-      output.innerHTML = renderHighlighted(text, hits);
-      output.hidden = false;
-    } else {
-      output.hidden = true;
-      output.innerHTML = "";
-    }
+    renderAll();
 
-    let fhtml = "";
-    counts.forEach((n, id) => {
-      const t = TERM_BY_ID.get(id);
-      if (!t) return;
-      fhtml += `<div class="analyze-finding" id="finding-${esc(id)}">
-        <h3>${esc(t.misleading)} <span class="analyze-count">${n}\u00d7</span></h3>
-        <p>${esc(t.problem)}</p>
-        <p class="analyze-swap">Use instead: ${esc(t.replacement)}</p>
-      </div>`;
-    });
-    findings.innerHTML = fhtml;
-
-    const total = hits.length;
-    const nTerms = counts.size;
+    const total = lastHits.filter((h) => !ignoredIds.has(h.id)).length;
+    const nTerms = uniqueActiveTermIds(lastHits).size;
     if (total === 0) {
       summary.textContent = "No glossary terms flagged. That does not mean the text is clean, only that none of these terms showed up where they usually mislead.";
     } else {
@@ -140,24 +375,54 @@
 
   function clearAll() {
     input.value = "";
-    output.hidden = true;
+    ignoredIds = new Set();
+    resolvedIds = new Set();
+    selectedHitIndex = -1;
+    lastHits = [];
+    outputWrap.hidden = true;
     output.innerHTML = "";
     findings.innerHTML = "";
+    if (detail) detail.hidden = true;
     summary.textContent = "";
+    stats.hidden = true;
+    input.hidden = false;
+    applyAllBtn.disabled = true;
+    marginTitle.textContent = "Editor's marks";
     input.focus();
   }
 
-  runBtn.addEventListener("click", run);
-  if (clearBtn) clearBtn.addEventListener("click", clearAll);
-
-  // Clicking a highlighted word jumps to its finding and flashes it.
   output.addEventListener("click", (e) => {
     const mark = e.target.closest(".analyze-hit");
     if (!mark) return;
-    const el = document.getElementById("finding-" + mark.dataset.termId);
-    if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "center" });
-    el.classList.add("flash");
-    setTimeout(() => el.classList.remove("flash"), 1200);
+    selectedHitIndex = Number(mark.dataset.hitIndex);
+    renderAll();
+    const row = findings.querySelector(".analyze-finding.active");
+    if (row) row.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  });
+
+  runBtn.addEventListener("click", run);
+  if (clearBtn) clearBtn.addEventListener("click", clearAll);
+  if (applyAllBtn) applyAllBtn.addEventListener("click", applyAllSwaps);
+  if (pasteBtn) {
+    pasteBtn.addEventListener("click", async () => {
+      try {
+        const text = await navigator.clipboard.readText();
+        if (text) {
+          input.value = text;
+          if (window.HAVE_NAV) window.HAVE_NAV.setActiveTab("analyze");
+          input.focus();
+        }
+      } catch (err) {
+        input.focus();
+      }
+    });
+  }
+
+  input.addEventListener("input", () => {
+    if (!input.hidden) {
+      ignoredIds = new Set();
+      resolvedIds = new Set();
+      selectedHitIndex = -1;
+    }
   });
 })();

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background:#d9d5cc; }
+  :root{
+    --bg:#f4efe4; --panel:#efe9dd; --card:#faf7ef;
+    --ink:#2a2622; --ink-soft:#5f5749; --ink-faint:#8a8275; --mono-faint:#a39a8a; --faintest:#bcb4a4;
+    --rule:rgba(42,38,34,0.14); --rule-soft:rgba(42,38,34,0.12); --rule-strong:rgba(42,38,34,0.2);
+    --ox:#7a2328; --ox-strong:#5d1a1e; --ox-tint:rgba(122,35,40,0.14); --ox-line:rgba(122,35,40,0.5);
+    --careful:#4f6a52; --amber:#8a6d2c; --amber-bg:rgba(176,138,60,0.14); --amber-line:rgba(176,138,60,0.34);
+    --bar-bg:#201c19; --bar-ink:#ece6d9; --bar-faint:#9b9286; --bar-rule:rgba(236,230,217,0.14); --bar-chip:#2c2722;
+  }
+  [data-dark="1"]{
+    --bg:#1b1815; --panel:#211d19; --card:#2a2620;
+    --ink:#e9e3d6; --ink-soft:#c4bcae; --ink-faint:#9b9286; --mono-faint:#80776a; --faintest:#6b6356;
+    --rule:rgba(233,227,214,0.12); --rule-soft:rgba(233,227,214,0.08); --rule-strong:rgba(233,227,214,0.2);
+    --ox:#a5304c; --ox-strong:#7a2328; --ox-tint:rgba(165,48,76,0.20); --ox-line:rgba(198,94,130,0.6);
+    --careful:#88a98a; --amber:#c7a155; --amber-bg:rgba(199,161,85,0.14); --amber-line:rgba(199,161,85,0.3);
+    --bar-bg:#141110; --bar-ink:#e9e3d6; --bar-faint:#8f8676; --bar-rule:rgba(233,227,214,0.1); --bar-chip:#221e1a;
+  }
+</style>
+</helmet>
+
+<div data-dark="{{ darkAttr }}" style="background:var(--bg); min-height:100vh; font-family:'Newsreader',Georgia,serif; color:var(--ink); display:flex; flex-direction:column;">
+
+  <!-- ===== Reversed plate ===== -->
+  <div style="display:flex; align-items:center; justify-content:space-between; padding:16px 40px; background:var(--bar-bg); color:var(--bar-ink);">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span style="width:22px; height:22px; border-radius:3px; background:var(--ox); display:inline-flex; align-items:center; justify-content:center; color:#f4efe4; font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600;">H</span>
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:0.12em; font-weight:600;">HAVE</span>
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.06em; color:var(--bar-faint); margin-left:2px;">Honest AI Vocabulary Evaluator</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:20px; font-family:'IBM Plex Mono',monospace; font-size:12.5px; letter-spacing:0.03em;">
+      <span style="display:inline-flex; align-items:center; gap:8px; color:#f4efe4; font-weight:600; background:var(--ox); padding:8px 15px; border-radius:4px;">
+        <svg width="18" height="13" viewBox="0 0 24 18" fill="none" stroke="#f4efe4" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><circle cx="5.5" cy="11" r="3.6"></circle><circle cx="18.5" cy="11" r="3.6"></circle><path d="M9.1 11c0-1.1 1.1-1.8 2.9-1.8s2.9.7 2.9 1.8"></path><path d="M1.9 11C1.9 8 2.6 5.6 4.2 4.3"></path><path d="M22.1 11c0-3-.7-5.4-2.3-6.7"></path></svg>Analyze
+      </span>
+      <span style="width:1px; height:20px; background:var(--bar-rule);"></span>
+      <span title="Reference" style="display:inline-flex; color:var(--bar-faint);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M12 6c-1.6-1-4.1-1.6-6.6-1.6V18C8 18 10.4 18.6 12 19.6"></path><path d="M12 6c1.6-1 4.1-1.6 6.6-1.6V18C16 18 13.6 18.6 12 19.6"></path><path d="M12 6v13.6"></path></svg></span>
+      <div style="display:flex; gap:18px;">
+        <span style="color:#f4efe4; font-weight:600; border-bottom:2px solid var(--ox); padding-bottom:2px;">Glossary</span>
+        <span style="color:var(--bar-faint);">Case&nbsp;Study</span>
+        <span style="color:var(--bar-faint);">Etymology</span>
+      </div>
+      <span style="width:1px; height:20px; background:var(--bar-rule);"></span>
+      <span style="display:inline-flex; align-items:center; gap:7px; color:var(--bar-ink); border:1px solid var(--bar-rule); border-radius:20px; padding:5px 11px 5px 9px; background:var(--bar-chip);">{{ themeGlyph }} {{ themeLabel }}</span>
+    </div>
+  </div>
+
+  <!-- ===== Specimen hero (front door) ===== -->
+  <div style="padding:14px 40px 0;">
+    <div style="display:flex; align-items:center; justify-content:space-between; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-faint); padding:18px 0 0;">
+      <span>Specimen — entry 01 / 12</span>
+      <span style="display:flex; gap:16px; color:var(--mono-faint);"><span>‹ prev</span><span style="color:var(--ink-soft);">shuffle</span><span>next ›</span></span>
+    </div>
+  </div>
+  <div style="display:flex; flex-direction:column; align-items:center; text-align:center; padding:30px 40px 52px;">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--mono-faint); margin-bottom:26px;">perception → output · imported verb</div>
+    <div style="font-size:84px; line-height:0.92; font-weight:500; letter-spacing:-0.03em; color:var(--ox); text-decoration:line-through; text-decoration-thickness:3px; text-decoration-color:var(--ox-line);">Hallucinate</div>
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-faint); margin:22px 0 12px;">use instead</div>
+    <div style="font-size:62px; line-height:0.95; font-weight:600; letter-spacing:-0.02em; color:var(--careful);">Fabricate</div>
+    <p style="font-size:21px; font-style:italic; line-height:1.5; color:var(--ink-soft); max-width:660px; margin:36px 0 0;">Naming a false output after a human perceptual disorder implies the system <span style="font-style:normal; color:var(--ink);">sees</span> something that isn’t there. It has no perception to disturb — it produces text that is simply ungrounded.</p>
+
+    <div style="display:flex; margin-top:34px; border:1px solid var(--rule-strong); border-radius:3px; overflow:hidden; max-width:780px;">
+      <div style="flex:1; padding:16px 22px; background:var(--ox-tint); border-right:1px solid var(--rule-strong); text-align:left;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--ox); margin-bottom:7px;">careless</div>
+        <div style="font-style:italic; font-size:16px; color:var(--ink); line-height:1.45;">The model hallucinated three court cases that don’t exist.</div>
+      </div>
+      <div style="flex:1; padding:16px 22px; text-align:left;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--careful); margin-bottom:7px;">careful</div>
+        <div style="font-style:italic; font-size:16px; color:var(--ink); line-height:1.45;">The model fabricated three court cases that don’t exist.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Index (browse all) ===== -->
+  <div style="background:var(--panel); border-top:1px solid var(--rule); padding:30px 40px 60px;">
+    <div style="display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:8px;">
+      <div style="display:flex; align-items:baseline; gap:14px;">
+        <h2 style="font-size:26px; font-weight:500; margin:0; letter-spacing:-0.01em;">The Glossary</h2>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink-faint);">12 terms</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink-faint); border:1px solid var(--rule-strong); border-radius:3px; padding:8px 13px; background:var(--card); min-width:240px;">
+        <span style="opacity:0.6;">⌕</span><span>Search terms…</span>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:8px; margin:18px 0 8px; font-family:'IBM Plex Mono',monospace; font-size:11.5px;">
+      <span style="padding:6px 13px; border-radius:20px; background:var(--ox); color:#f4efe4;">All 12</span>
+      <span style="padding:6px 13px; border-radius:20px; border:1px solid var(--rule-strong); color:var(--ink-soft);">Has clean swap</span>
+      <span style="padding:6px 13px; border-radius:20px; border:1px solid var(--rule-strong); color:var(--ink-soft);">No clean swap</span>
+      <span style="padding:6px 13px; border-radius:20px; border:1px solid var(--rule-strong); color:var(--ink-soft);">Illingworth & TSL</span>
+      <span style="padding:6px 13px; border-radius:20px; border:1px solid var(--rule-strong); color:var(--ink-soft);">Logos Analog</span>
+    </div>
+
+    <sc-for list="{{ terms }}" as="t" hint-placeholder-count="12">
+      <div style="display:flex; align-items:center; gap:24px; padding:18px 8px; border-bottom:1px solid var(--rule-soft);">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--faintest); flex:none; width:26px;">{{ t.num }}</span>
+        <div style="flex:none; width:330px; display:flex; align-items:baseline; gap:11px;">
+          <span style="font-size:23px; color:var(--ox); text-decoration:line-through; text-decoration-thickness:1.5px; text-decoration-color:var(--ox-line);">{{ t.careless }}</span>
+          <sc-if value="{{ t.hasSwap }}" hint-placeholder-val="{{ true }}">
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink-faint);">→</span>
+            <span style="font-size:23px; color:var(--careful); font-weight:600;">{{ t.careful }}</span>
+          </sc-if>
+          <sc-if value="{{ t.noSwap }}" hint-placeholder-val="{{ false }}">
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.04em; color:var(--amber); background:var(--amber-bg); border:1px solid var(--amber-line); padding:2px 8px; border-radius:2px;">no clean swap</span>
+          </sc-if>
+        </div>
+        <span style="flex:none; width:150px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--mono-faint);">{{ t.category }}</span>
+        <span style="flex:1; font-size:16px; line-height:1.5; color:var(--ink-soft);">{{ t.why }}</span>
+        <span style="flex:none; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.06em; color:var(--faintest);">{{ t.sourceShort }}</span>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:1480},&quot;dark&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    const mk = (num, careless, careful, category, why, src) => ({
+      num, careless, careful, category, why,
+      hasSwap: !!careful, noSwap: !careful,
+      sourceShort: src
+    });
+    return {
+      darkAttr: dark ? '1' : '0',
+      themeGlyph: dark ? '☀' : '☾',
+      themeLabel: dark ? 'Light' : 'Dark',
+      terms: [
+        mk('01', 'Hallucinate', 'Fabricate', 'perception → output', 'Names a false output after a perceptual disorder; the system has nothing to perceive.', 'ILL'),
+        mk('02', 'Intelligence', 'Capability', 'trait → measure', 'Treats benchmark performance as a contested human trait rather than what it does.', 'ILL'),
+        mk('03', 'Agent', 'System', 'actor → mechanism', 'Confers agency and a candidate for blame on a configured program.', 'ILL'),
+        mk('04', 'Consciousness', null, 'experience → —', 'Imports subjective experience. Describe the behavior; do not assert an inner life.', 'ILL'),
+        mk('05', 'AGI', null, 'horizon → claim', 'A marketing horizon fusing three contested words. Name the specific capability.', 'ILL'),
+        mk('06', 'Understands', 'Processes', 'comprehension → operation', 'Claims it grasps meaning; it maps inputs to outputs over learned statistics.', 'LA'),
+        mk('07', 'Learns', 'Is trained', 'growth → fitting', 'Evokes a person coming to understand. Parameters are fit to data by optimization.', 'LA'),
+        mk('08', 'Reasons', 'Derives', 'deliberation → computation', 'Suggests deliberation and judgment. It generates intermediate steps.', 'LA'),
+        mk('09', 'Knows', 'Returns', 'belief → retrieval', 'Implies justified belief and a knower. It returns text that can simply be wrong.', 'LA'),
+        mk('10', 'Wants', 'Is optimized to', 'desire → objective', 'Attributes desire and intention. There is an objective function, not a wish.', 'LA'),
+        mk('11', 'Neural network', 'Parameterized model', 'brain → math', 'Borrows the prestige of biology for loosely brain-inspired math.', 'LA'),
+        mk('12', 'Artificial', null, 'modifier → presupposition', 'In “artificial intelligence,” the noun presupposes the thing in question. Be specific.', 'LA')
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

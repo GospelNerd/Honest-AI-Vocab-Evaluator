@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background:#d9d5cc; }
+  :root{
+    --bg:#f4efe4; --panel:#efe9dd; --card:#faf7ef;
+    --ink:#2a2622; --ink-soft:#5f5749; --ink-faint:#8a8275; --mono-faint:#a39a8a; --faintest:#bcb4a4;
+    --rule:rgba(42,38,34,0.14); --rule-soft:rgba(42,38,34,0.12); --rule-strong:rgba(42,38,34,0.2);
+    --ox:#7a2328; --ox-strong:#5d1a1e; --ox-tint:rgba(122,35,40,0.14); --ox-line:rgba(122,35,40,0.5);
+    --careful:#4f6a52; --careful-tint:rgba(79,106,82,0.13); --careful-line:rgba(79,106,82,0.45);
+    --amber:#8a6d2c; --amber-bg:rgba(176,138,60,0.14); --amber-line:rgba(176,138,60,0.34);
+    --bar-bg:#201c19; --bar-ink:#ece6d9; --bar-faint:#9b9286; --bar-rule:rgba(236,230,217,0.14); --bar-chip:#2c2722;
+  }
+  [data-dark="1"]{
+    --bg:#1b1815; --panel:#211d19; --card:#2a2620;
+    --ink:#e9e3d6; --ink-soft:#c4bcae; --ink-faint:#9b9286; --mono-faint:#80776a; --faintest:#6b6356;
+    --rule:rgba(233,227,214,0.12); --rule-soft:rgba(233,227,214,0.08); --rule-strong:rgba(233,227,214,0.2);
+    --ox:#a5304c; --ox-strong:#7a2328; --ox-tint:rgba(165,48,76,0.20); --ox-line:rgba(198,94,130,0.6);
+    --careful:#88a98a; --careful-tint:rgba(136,169,138,0.14); --careful-line:rgba(136,169,138,0.45);
+    --amber:#c7a155; --amber-bg:rgba(199,161,85,0.14); --amber-line:rgba(199,161,85,0.3);
+    --bar-bg:#141110; --bar-ink:#e9e3d6; --bar-faint:#8f8676; --bar-rule:rgba(233,227,214,0.1); --bar-chip:#221e1a;
+  }
+</style>
+</helmet>
+
+<div data-dark="{{ darkAttr }}" style="background:var(--bg); min-height:100vh; font-family:'Newsreader',Georgia,serif; color:var(--ink); display:flex; flex-direction:column;">
+
+  <!-- ===== Reversed plate ===== -->
+  <div style="display:flex; align-items:center; justify-content:space-between; padding:16px 40px; background:var(--bar-bg); color:var(--bar-ink);">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span style="width:22px; height:22px; border-radius:3px; background:var(--ox-strong); display:inline-flex; align-items:center; justify-content:center; color:#f4efe4; font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600;">H</span>
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:0.12em; font-weight:600;">HAVE</span>
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.06em; color:var(--bar-faint); margin-left:2px;">Honest AI Vocabulary Evaluator</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:20px; font-family:'IBM Plex Mono',monospace; font-size:12.5px; letter-spacing:0.03em;">
+      <span style="display:inline-flex; align-items:center; gap:8px; color:#f4efe4; font-weight:600; background:var(--ox-strong); padding:8px 15px; border-radius:4px;">
+        <svg width="18" height="13" viewBox="0 0 24 18" fill="none" stroke="#f4efe4" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><circle cx="5.5" cy="11" r="3.6"></circle><circle cx="18.5" cy="11" r="3.6"></circle><path d="M9.1 11c0-1.1 1.1-1.8 2.9-1.8s2.9.7 2.9 1.8"></path><path d="M1.9 11C1.9 8 2.6 5.6 4.2 4.3"></path><path d="M22.1 11c0-3-.7-5.4-2.3-6.7"></path></svg>Analyze
+      </span>
+      <span style="width:1px; height:20px; background:var(--bar-rule);"></span>
+      <span title="Reference" style="display:inline-flex; color:var(--bar-faint);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M12 6c-1.6-1-4.1-1.6-6.6-1.6V18C8 18 10.4 18.6 12 19.6"></path><path d="M12 6c1.6-1 4.1-1.6 6.6-1.6V18C16 18 13.6 18.6 12 19.6"></path><path d="M12 6v13.6"></path></svg></span>
+      <div style="display:flex; gap:18px;">
+        <span style="color:var(--bar-faint);">Glossary</span>
+        <span style="color:#f4efe4; font-weight:600; border-bottom:2px solid var(--ox); padding-bottom:2px;">Case&nbsp;Study</span>
+        <span style="color:var(--bar-faint);">Etymology</span>
+      </div>
+      <span style="width:1px; height:20px; background:var(--bar-rule);"></span>
+      <span style="display:inline-flex; align-items:center; gap:7px; color:var(--bar-ink); border:1px solid var(--bar-rule); border-radius:20px; padding:5px 11px 5px 9px; background:var(--bar-chip);">{{ themeGlyph }} {{ themeLabel }}</span>
+    </div>
+  </div>
+
+  <!-- ===== Header ===== -->
+  <div style="padding:34px 40px 18px; max-width:760px;">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px;">Reference · careful rewrites, annotated</div>
+    <h1 style="font-size:40px; font-weight:400; margin:0 0 10px; letter-spacing:-0.02em;">Case Study</h1>
+    <p style="font-size:17px; font-style:italic; line-height:1.55; color:var(--ink-soft); margin:0;">Worked examples: hype-laden passages recast in careful language, with the reasoning shown. Study them to build the instinct — and one day you won’t need the tool.</p>
+  </div>
+
+  <!-- ===== Case meta (reference nav, not actions) ===== -->
+  <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 40px 22px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-faint);">
+    <span>Case 01 / 12 · product announcement · 8 careful moves</span>
+    <span style="display:flex; gap:18px; color:var(--mono-faint);"><span>‹ prev case</span><span style="color:var(--ink-soft);">next case ›</span></span>
+  </div>
+
+  <!-- ===== Before / After ===== -->
+  <div style="display:flex; gap:0; border-top:1px solid var(--rule);">
+    <div style="flex:1; padding:34px 44px 44px; border-right:1px solid var(--rule);">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ox); margin-bottom:22px;">— Before · as written</div>
+      <p style="font-size:21px; line-height:1.8; max-width:560px; color:var(--ink); margin:0; text-wrap:pretty;">Our new AI assistant is incredibly <mark style="background:none; color:var(--ox); border-bottom:2px solid var(--ox-line); padding-bottom:1px;">intelligent</mark>. It <mark style="background:none; color:var(--ox); border-bottom:2px solid var(--ox-line); padding-bottom:1px;">understands</mark> what each user wants, <mark style="background:none; color:var(--ox); border-bottom:2px solid var(--ox-line); padding-bottom:1px;">learns</mark> from every conversation, and <mark style="background:none; color:var(--ox); border-bottom:2px solid var(--ox-line); padding-bottom:1px;">reasons</mark> about hard cases <mark style="background:none; color:var(--ox); border-bottom:2px solid var(--ox-line); padding-bottom:1px;">on its own</mark>. When it <mark style="background:none; color:var(--ox); border-bottom:2px solid var(--ox-line); padding-bottom:1px;">hallucinates</mark>, it usually <mark style="background:none; color:var(--ox); border-bottom:2px solid var(--ox-line); padding-bottom:1px;">knows</mark> it’s unsure — honestly, it <mark style="background:none; color:var(--ox); border-bottom:2px solid var(--ox-line); padding-bottom:1px;">wants</mark> to help.</p>
+    </div>
+    <div style="flex:1; padding:34px 44px 44px; background:var(--careful-tint);">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--careful); margin-bottom:22px;">+ After · careful</div>
+      <p style="font-size:21px; line-height:1.8; max-width:560px; color:var(--ink); margin:0; text-wrap:pretty;">Our new AI assistant is highly <mark style="background:none; color:var(--careful); font-weight:600; border-bottom:2px solid var(--careful-line); padding-bottom:1px;">capable</mark>. It <mark style="background:none; color:var(--careful); font-weight:600; border-bottom:2px solid var(--careful-line); padding-bottom:1px;">processes</mark> what each user asks, <mark style="background:none; color:var(--careful); font-weight:600; border-bottom:2px solid var(--careful-line); padding-bottom:1px;">is trained</mark> on past conversations, and <mark style="background:none; color:var(--careful); font-weight:600; border-bottom:2px solid var(--careful-line); padding-bottom:1px;">derives</mark> steps for hard cases <mark style="background:none; color:var(--careful); font-weight:600; border-bottom:2px solid var(--careful-line); padding-bottom:1px;">automatically</mark>. When it <mark style="background:none; color:var(--careful); font-weight:600; border-bottom:2px solid var(--careful-line); padding-bottom:1px;">fabricates</mark> an answer, it often <mark style="background:none; color:var(--careful); font-weight:600; border-bottom:2px solid var(--careful-line); padding-bottom:1px;">reports</mark> low confidence — it is <mark style="background:none; color:var(--careful); font-weight:600; border-bottom:2px solid var(--careful-line); padding-bottom:1px;">optimized to</mark> help.</p>
+    </div>
+  </div>
+
+  <!-- ===== Notes (annotation, not actions) ===== -->
+  <div style="background:var(--panel); border-top:1px solid var(--rule); padding:30px 40px 50px;">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:6px;">Notes — what changed, and why</div>
+    <div style="font-style:italic; font-size:15px; color:var(--ink-soft); margin-bottom:20px; max-width:680px;">Read the swaps as a set. The passage loses nothing true about the product — only the borrowed mind it never had.</div>
+    <sc-for list="{{ moves }}" as="m" hint-placeholder-count="8">
+      <div style="display:flex; align-items:baseline; gap:22px; padding:15px 8px; border-bottom:1px solid var(--rule-soft);">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--faintest); flex:none; width:22px;">{{ m.n }}</span>
+        <div style="flex:none; width:300px; display:flex; align-items:baseline; gap:11px;">
+          <span style="font-size:20px; color:var(--ox); text-decoration:line-through; text-decoration-thickness:1.5px; text-decoration-color:var(--ox-line);">{{ m.from }}</span>
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink-faint);">→</span>
+          <span style="font-size:20px; color:var(--careful); font-weight:600;">{{ m.to }}</span>
+        </div>
+        <span style="flex:1; font-size:16px; line-height:1.5; color:var(--ink-soft);">{{ m.why }}</span>
+      </div>
+    </sc-for>
+  </div>
+
+  <!-- ===== More cases index ===== -->
+  <div style="padding:30px 40px 60px;">
+    <div style="display:flex; align-items:baseline; gap:14px; margin-bottom:18px;">
+      <h2 style="font-size:24px; font-weight:500; margin:0; letter-spacing:-0.01em;">More cases</h2>
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink-faint);">11 more</span>
+    </div>
+    <sc-for list="{{ cases }}" as="c" hint-placeholder-count="5">
+      <div style="display:flex; align-items:baseline; gap:24px; padding:16px 8px; border-bottom:1px solid var(--rule-soft);">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--faintest); flex:none; width:34px;">{{ c.no }}</span>
+        <span style="flex:none; width:260px; font-size:20px; color:var(--ink);">{{ c.title }}</span>
+        <span style="flex:1; font-size:16px; line-height:1.5; color:var(--ink-soft);">{{ c.teaches }}</span>
+        <span style="flex:none; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-faint);">{{ c.moves }}</span>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:1320},&quot;dark&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    const mv = (n, from, to, why) => ({ n, from, to, why });
+    const cs = (no, title, teaches, moves) => ({ no, title, teaches, moves });
+    return {
+      darkAttr: dark ? '1' : '0',
+      themeGlyph: dark ? '☀' : '☾',
+      themeLabel: dark ? 'Light' : 'Dark',
+      moves: [
+        mv('1', 'intelligent', 'capable', 'States what it does instead of asserting a contested human trait.'),
+        mv('2', 'understands', 'processes', 'Drops the claim of grasped meaning; names the operation.'),
+        mv('3', 'learns', 'is trained', 'Keeps the mechanism visible — parameters fit by optimization, not growth.'),
+        mv('4', 'reasons', 'derives', 'Replaces implied deliberation with the actual step generation.'),
+        mv('5', 'on its own', 'automatically', 'Removes the suggestion of independent agency.'),
+        mv('6', 'hallucinates', 'fabricates', 'Names the ungrounded output without implying perception.'),
+        mv('7', 'knows', 'reports', 'Swaps belief-and-a-knower for what the system actually emits.'),
+        mv('8', 'wants', 'is optimized to', 'Names the objective function rather than a desire.')
+      ],
+      cases: [
+        cs('02', 'Customer support copy', 'When reassurance tips into claiming the system cares.', '5 moves'),
+        cs('03', 'Investor update', 'Separating capability claims from the AGI horizon.', '7 moves'),
+        cs('04', 'Research abstract', 'Where “understands” and “reasons” quietly overstate results.', '4 moves'),
+        cs('05', 'Onboarding email', 'Setting honest expectations without dampening delight.', '6 moves'),
+        cs('06', 'Press release', 'Trimming “intelligence” and “learns” from the headline.', '9 moves')
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

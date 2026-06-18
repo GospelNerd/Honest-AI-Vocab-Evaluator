@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background:#d9d5cc; }
+  /* Theme tokens — the one cross-cutting switch inline styles can't express.
+     :root defaults are light, so every var() paints immediately. */
+  :root{
+    --bg:#f4efe4; --panel:#efe9dd; --card:#faf7ef;
+    --ink:#2a2622; --ink-soft:#5f5749; --ink-faint:#8a8275; --mono-faint:#a39a8a; --faintest:#bcb4a4;
+    --rule:rgba(42,38,34,0.14); --rule-soft:rgba(42,38,34,0.12); --rule-strong:rgba(42,38,34,0.2);
+    --ox:#7a2328; --ox-strong:#5d1a1e; --ox-tint:rgba(122,35,40,0.14); --ox-line:rgba(122,35,40,0.5);
+    --careful:#4f6a52; --amber:#8a6d2c; --amber-bg:rgba(176,138,60,0.14); --amber-line:rgba(176,138,60,0.34);
+    /* reversed plate — dark in BOTH modes (the Logos Analog signature) */
+    --bar-bg:#201c19; --bar-ink:#ece6d9; --bar-faint:#9b9286; --bar-rule:rgba(236,230,217,0.14); --bar-chip:#2c2722;
+  }
+  [data-dark="1"]{
+    --bg:#1b1815; --panel:#211d19; --card:#2a2620;
+    --ink:#e9e3d6; --ink-soft:#c4bcae; --ink-faint:#9b9286; --mono-faint:#80776a; --faintest:#6b6356;
+    --rule:rgba(233,227,214,0.12); --rule-soft:rgba(233,227,214,0.08); --rule-strong:rgba(233,227,214,0.2);
+    --ox:#a5304c; --ox-strong:#7a2328; --ox-tint:rgba(165,48,76,0.20); --ox-line:rgba(198,94,130,0.6);
+    --careful:#88a98a; --amber:#c7a155; --amber-bg:rgba(199,161,85,0.14); --amber-line:rgba(199,161,85,0.3);
+    --bar-bg:#141110; --bar-ink:#e9e3d6; --bar-faint:#8f8676; --bar-rule:rgba(233,227,214,0.1); --bar-chip:#221e1a;
+  }
+</style>
+</helmet>
+
+<div data-dark="{{ darkAttr }}" style="background:var(--bg); min-height:100vh; font-family:'Newsreader',Georgia,serif; color:var(--ink); display:flex; flex-direction:column;">
+
+  <!-- ===== Reversed plate (Logos Analog signature) ===== -->
+  <div style="display:flex; align-items:center; justify-content:space-between; padding:16px 40px; background:var(--bar-bg); color:var(--bar-ink);">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span style="width:22px; height:22px; border-radius:3px; background:var(--ox); display:inline-flex; align-items:center; justify-content:center; color:#f4efe4; font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600;">H</span>
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:0.12em; font-weight:600;">HAVE</span>
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.06em; color:var(--bar-faint); margin-left:2px;">Honest AI Vocabulary Evaluator</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:20px; font-family:'IBM Plex Mono',monospace; font-size:12.5px; letter-spacing:0.03em;">
+      <span style="display:inline-flex; align-items:center; gap:8px; color:#f4efe4; font-weight:600; background:var(--ox); padding:8px 15px; border-radius:4px;">
+        <svg width="18" height="13" viewBox="0 0 24 18" fill="none" stroke="#f4efe4" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><circle cx="5.5" cy="11" r="3.6"></circle><circle cx="18.5" cy="11" r="3.6"></circle><path d="M9.1 11c0-1.1 1.1-1.8 2.9-1.8s2.9.7 2.9 1.8"></path><path d="M1.9 11C1.9 8 2.6 5.6 4.2 4.3"></path><path d="M22.1 11c0-3-.7-5.4-2.3-6.7"></path></svg>Analyze
+      </span>
+      <span style="width:1px; height:20px; background:var(--bar-rule);"></span>
+      <span title="Reference" style="display:inline-flex; color:var(--bar-faint);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M12 6c-1.6-1-4.1-1.6-6.6-1.6V18C8 18 10.4 18.6 12 19.6"></path><path d="M12 6c1.6-1 4.1-1.6 6.6-1.6V18C16 18 13.6 18.6 12 19.6"></path><path d="M12 6v13.6"></path></svg></span>
+      <div style="display:flex; gap:18px; color:var(--bar-faint);">
+        <span>Glossary</span><span>Case&nbsp;Study</span><span>Etymology</span>
+      </div>
+      <span style="width:1px; height:20px; background:var(--bar-rule);"></span>
+      <span style="display:inline-flex; align-items:center; gap:7px; color:var(--bar-ink); border:1px solid var(--bar-rule); border-radius:20px; padding:5px 11px 5px 9px; background:var(--bar-chip);">{{ themeGlyph }} {{ themeLabel }}</span>
+    </div>
+  </div>
+
+  <!-- ===== Analyze header + actions ===== -->
+  <div style="display:flex; align-items:flex-end; justify-content:space-between; padding:34px 40px 22px;">
+    <div style="max-width:620px;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px;">Working tool</div>
+      <h1 style="font-size:38px; font-weight:400; margin:0 0 8px; letter-spacing:-0.02em;">Analyze your prose</h1>
+      <p style="font-size:17px; font-style:italic; line-height:1.5; color:var(--ink-soft); margin:0;">Paste a draft. HAVE marks the words that import more meaning than is warranted — and proposes a careful one to use instead.</p>
+    </div>
+    <div style="display:flex; gap:10px; font-family:'IBM Plex Mono',monospace; font-size:12px;">
+      <span style="padding:9px 16px; border:1px solid var(--rule-strong); border-radius:3px; color:var(--ink-soft); background:var(--card);">Paste text</span>
+      <span style="padding:9px 16px; border:1px solid var(--careful); border-radius:3px; color:#f4efe4; background:var(--careful);">Apply all careful swaps</span>
+    </div>
+  </div>
+
+  <!-- ===== Summary strip ===== -->
+  <div style="display:flex; align-items:center; gap:26px; padding:0 40px 20px;">
+    <div style="display:flex; align-items:baseline; gap:9px;">
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:30px; font-weight:600; color:var(--ox);">9</span>
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.04em; color:var(--ink-faint);">loaded terms</span>
+    </div>
+    <div style="width:1px; height:30px; background:var(--rule-strong);"></div>
+    <div style="display:flex; align-items:baseline; gap:9px;">
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:30px; font-weight:600; color:var(--ink);">168</span>
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.04em; color:var(--ink-faint);">words</span>
+    </div>
+    <div style="width:1px; height:30px; background:var(--rule-strong);"></div>
+    <div style="flex:1; max-width:420px;">
+      <div style="display:flex; justify-content:space-between; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:7px;">
+        <span>Carefulness</span><span>5 of 9 still carry unearned meaning</span>
+      </div>
+      <div style="display:flex; gap:4px;">
+        <span style="flex:4; height:6px; border-radius:3px; background:var(--careful);"></span>
+        <span style="flex:5; height:6px; border-radius:3px; background:var(--ox-line);"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Workbench ===== -->
+  <div style="display:flex; gap:0; flex:1; border-top:1px solid var(--rule);">
+
+    <!-- Manuscript -->
+    <div style="flex:1; padding:46px 54px 60px; border-right:1px solid var(--rule); position:relative;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--faintest); margin-bottom:26px;">Draft — product announcement</div>
+      <p style="font-size:25px; line-height:1.85; max-width:680px; color:var(--ink); margin:0; text-wrap:pretty;">Our support copilot is genuinely <mark style="background:none; color:var(--ox); border-bottom:2px solid var(--ox-line); padding-bottom:1px; cursor:pointer;">intelligent<sup style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ox); margin-left:1px;">1</sup></mark>. The <mark style="background:var(--ox-tint); color:var(--ox); border-bottom:2px solid var(--ox); padding:1px 3px; border-radius:2px; cursor:pointer;">agent<sup style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ox); margin-left:1px;">2</sup></mark> <mark style="background:none; color:var(--ox); border-bottom:2px solid var(--ox-line); padding-bottom:1px; cursor:pointer;">understands<sup style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ox); margin-left:1px;">3</sup></mark> what each customer wants, <mark style="background:none; color:var(--ox); border-bottom:2px solid var(--ox-line); padding-bottom:1px; cursor:pointer;">learns<sup style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ox); margin-left:1px;">4</sup></mark> from every conversation, and <mark style="background:none; color:var(--ox); border-bottom:2px solid var(--ox-line); padding-bottom:1px; cursor:pointer;">reasons<sup style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ox); margin-left:1px;">5</sup></mark> through messy edge cases on its own. Now and then it <mark style="background:none; color:var(--ox); border-bottom:2px solid var(--ox-line); padding-bottom:1px; cursor:pointer;">hallucinates<sup style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ox); margin-left:1px;">6</sup></mark> a policy that doesn’t exist, but it usually <mark style="background:none; color:var(--ox); border-bottom:2px solid var(--ox-line); padding-bottom:1px; cursor:pointer;">knows<sup style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ox); margin-left:1px;">7</sup></mark> when it’s unsure. Honestly, it <mark style="background:none; color:var(--ox); border-bottom:2px solid var(--ox-line); padding-bottom:1px; cursor:pointer;">wants<sup style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ox); margin-left:1px;">8</sup></mark> to help — we’re not far from <mark style="background:none; color:var(--ox); border-bottom:2px solid var(--ox-line); padding-bottom:1px; cursor:pointer;">AGI<sup style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ox); margin-left:1px;">9</sup></mark>.</p>
+
+      <div style="margin-top:40px; padding-top:22px; border-top:1px dashed var(--rule-strong); font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-faint); max-width:680px; line-height:1.6;">
+        Tip — a mark is not a verdict. Some loaded words are the right ones; HAVE’s job is to make the choice <span style="color:var(--ink-soft);">conscious</span>, not automatic.
+      </div>
+    </div>
+
+    <!-- Editor's margin -->
+    <div style="flex:none; width:412px; background:var(--panel); padding:28px 28px 50px;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:20px;">Editor’s marks — 9</div>
+
+      <div style="background:var(--card); border:1px solid var(--ox-line); border-radius:3px; padding:22px 22px 20px; margin-bottom:18px; box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+        <div style="display:flex; align-items:center; gap:9px; margin-bottom:18px;">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#f4efe4; background:var(--ox); border-radius:3px; padding:2px 7px;">2</span>
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-faint);">actor → mechanism</span>
+        </div>
+        <div style="font-size:42px; line-height:1; font-weight:500; letter-spacing:-0.02em; color:var(--ox); text-decoration:line-through; text-decoration-thickness:2.5px; text-decoration-color:var(--ox-line);">agent</div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-faint); margin:14px 0 6px;">use instead</div>
+        <div style="font-size:36px; line-height:1; font-weight:600; letter-spacing:-0.015em; color:var(--careful);">system</div>
+        <p style="font-size:15.5px; line-height:1.55; color:var(--ink-soft); margin:18px 0 18px;">“Agent” confers agency — intention, autonomy, a candidate for blame — on a configured program. <span style="color:var(--ink);">System</span> keeps responsibility with the people who built and deployed it.</p>
+        <div style="display:flex; gap:8px;">
+          <span style="flex:1; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:12px; padding:9px 0; border-radius:3px; background:var(--careful); color:#f4efe4;">Use “system”</span>
+          <span style="text-align:center; font-family:'IBM Plex Mono',monospace; font-size:12px; padding:9px 14px; border-radius:3px; border:1px solid var(--rule-strong); color:var(--ink-soft);">Ignore</span>
+          <span style="text-align:center; font-family:'IBM Plex Mono',monospace; font-size:12px; padding:9px 12px; border-radius:3px; border:1px solid var(--rule-strong); color:var(--ink-soft);">↗</span>
+        </div>
+      </div>
+
+      <sc-for list="{{ marks }}" as="m" hint-placeholder-count="8">
+        <div style="display:flex; align-items:baseline; gap:12px; padding:14px 6px; border-bottom:1px solid var(--rule-soft);">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--faintest); flex:none; width:14px;">{{ m.n }}</span>
+          <div style="flex:1; min-width:0;">
+            <div style="display:flex; align-items:baseline; gap:9px;">
+              <span style="font-size:18px; color:var(--ox); text-decoration:line-through; text-decoration-thickness:1.5px; text-decoration-color:var(--ox-line);">{{ m.careless }}</span>
+              <sc-if value="{{ m.hasSwap }}" hint-placeholder-val="{{ true }}">
+                <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-faint);">→</span>
+                <span style="font-size:18px; color:var(--careful); font-weight:600;">{{ m.careful }}</span>
+              </sc-if>
+              <sc-if value="{{ m.noSwap }}" hint-placeholder-val="{{ false }}">
+                <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.04em; color:var(--amber); background:var(--amber-bg); border:1px solid var(--amber-line); padding:2px 7px; border-radius:2px;">no clean swap</span>
+              </sc-if>
+            </div>
+            <p style="font-size:14px; line-height:1.5; color:var(--ink-soft); margin:6px 0 0;">{{ m.why }}</p>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:1000},&quot;dark&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    const mk = (n, careless, careful, why) => ({
+      n, careless, careful, why,
+      hasSwap: !!careful, noSwap: !careful
+    });
+    return {
+      darkAttr: dark ? '1' : '0',
+      themeGlyph: dark ? '☀' : '☾',
+      themeLabel: dark ? 'Light' : 'Dark',
+      marks: [
+        mk('1', 'intelligent', 'capable', 'Treats benchmark performance as a general human trait. State what it does.'),
+        mk('3', 'understands', 'processes', 'Claims it grasps meaning; it maps inputs to outputs over learned statistics.'),
+        mk('4', 'learns', 'is trained', 'Evokes a person coming to understand. Parameters are fit to data by optimization.'),
+        mk('5', 'reasons', 'derives', 'Suggests deliberation and judgment. It generates intermediate steps.'),
+        mk('6', 'hallucinates', 'fabricates', 'Names a false output after a perceptual disorder. It has no perception to disturb.'),
+        mk('7', 'knows', 'reports', 'Implies justified belief and a knower. It returns text that can simply be wrong.'),
+        mk('8', 'wants', 'is optimized to', 'Attributes desire. There is an objective function, not a wish.'),
+        mk('9', 'AGI', null, 'A marketing horizon fusing three contested words. Name the specific capability.')
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Honest AI Vocabulary Evaluator: Careful Words for Careful Writing</title>
+  <title>Honest AI Vocabulary Evaluator</title>
   <meta name="description" content="A glossary and practice tool for writers who want AI terminology that does not import more meaning than is warranted.">
-  <meta name="theme-color" content="#363231">
+  <meta name="theme-color" content="#201c19">
   <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -13,80 +13,192 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Roboto+Mono:wght@400;600;700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="js/theme.js"></script>
 </head>
 <body>
-  <header class="site-header">
-    <div class="wrap">
-      <p class="eyebrow">vocab.logosanalog.com</p>
-      <h1>Honest AI <span class="title-vocab">Vocabulary</span> Evaluator</h1>
-      <p class="lede">The AI discussion has become confused by terms that import more meaning than is warranted. Considering the gravity of this moment in human civilization, those writing and speaking about the ramifications of AI ought to consider carefully, and deliberately choose the words they use to refer to AI, its actions, its attributes, and its capabilities. This glossary helps practitioners, philosophers, and prose writers choose terms that describe these systems more precisely, fairly, and honestly.</p>
-      <p class="attribution">Inspired by <a href="https://substack.com/home/post/p-201143205" rel="noopener">We Are Using the Wrong Words for AI</a> by Dr Sam Illingworth and The Strategic Linguist, with additional entries.
-        This project is open-source and invites serious contributions to <a href="https://github.com/Himalogic/Honest-AI-Vocab-Evaluator" rel="noopener">this repository</a> by careful taxonomers. Maintained by Justin Philip Flores for <a href="https://logosanalog.com" rel="noopener" target="_blank">Logos Analog</a>.
-      </p>
-    </div>
-  </header>
-
-  <nav class="tab-nav wrap" role="tablist" aria-label="Main sections">
-    <button class="tab active" role="tab" aria-selected="true" aria-controls="panel-glossary" id="tab-glossary" data-panel="glossary">Glossary</button>
-    <button class="tab" role="tab" aria-selected="false" aria-controls="panel-rewrite" id="tab-rewrite" data-panel="rewrite">Rewrite</button>
-    <button class="tab" role="tab" aria-selected="false" aria-controls="panel-etymology" id="tab-etymology" data-panel="etymology">Etymology</button>
-    <button class="tab tab-tool" role="tab" aria-selected="false" aria-controls="panel-analyze" id="tab-analyze" data-panel="analyze">Analyze</button>
-  </nav>
-
-  <main class="wrap">
-    <section id="panel-glossary" class="panel active" role="tabpanel" aria-labelledby="tab-glossary">
-      <p class="panel-intro">Browse the terms below, or <button type="button" class="link-btn" id="suggest-open">suggest a term ↗</button> to help sharpen the glossary.</p>
-      <div class="panel-toolbar">
-        <label class="search-label" for="glossary-search">Search terms</label>
-        <input type="search" id="glossary-search" placeholder="e.g. hallucination, agent" autocomplete="off">
-        <div class="filter-group" id="source-filters" aria-label="Filter by source"></div>
+  <div id="app" class="app" data-dark="0">
+    <header class="site-chrome">
+      <div class="chrome-brand">
+        <span class="chrome-mark" aria-hidden="true">H</span>
+        <span class="chrome-wordmark">HAVE</span>
+        <span class="chrome-subtitle">Honest AI Vocabulary Evaluator</span>
       </div>
-      <div id="glossary-list" class="glossary-list"></div>
-    </section>
-
-    <section id="panel-rewrite" class="panel" role="tabpanel" aria-labelledby="tab-rewrite" hidden>
-      <p class="panel-intro">Each sentence leans on careless AI vocabulary, marked in oxblood. Read it, try rewriting it in your own words, then reveal a careful version to compare. The careful version is real prose, not a word-for-word swap, because the honest replacement usually changes the sentence around it.</p>
-      <div id="rewrite-exercises" class="rewrite-list"></div>
-      <button type="button" class="btn" id="rewrite-next">Another sentence</button>
-    </section>
-
-    <section id="panel-etymology" class="panel" role="tabpanel" aria-labelledby="tab-etymology" hidden>
-      <p class="panel-intro">Look up a word's etymology to see what history it carries into your writing. Words that sound neutral often import older meanings about minds, agency, or craft. Knowing the root helps you decide whether a term earns the weight you give it.</p>
-      <p class="etymology-notice">Etymology data from <a href="https://en.wiktionary.org/" rel="noopener noreferrer">Wiktionary</a>, licensed CC BY-SA. Results are cached so repeat lookups do not re-fetch. Each result also links to the matching <a href="https://www.etymonline.com/" rel="noopener noreferrer">Etymonline</a> page for comparison.</p>
-      <div class="etymology-card">
-        <div class="etymology-toolbar">
-          <label class="search-label" for="etymology-word">Word</label>
-          <input type="search" id="etymology-word" placeholder="e.g. intelligence, agent" autocomplete="off">
-          <button type="button" class="btn primary" id="etymology-analyze">Search</button>
+      <nav class="chrome-nav" aria-label="Main sections">
+        <button type="button" class="chrome-cta tab" data-panel="analyze" id="tab-analyze">
+          <svg class="chrome-cta-icon" width="18" height="13" viewBox="0 0 24 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5.5" cy="11" r="3.6"></circle><circle cx="18.5" cy="11" r="3.6"></circle><path d="M9.1 11c0-1.1 1.1-1.8 2.9-1.8s2.9.7 2.9 1.8"></path><path d="M1.9 11C1.9 8 2.6 5.6 4.2 4.3"></path><path d="M22.1 11c0-3-.7-5.4-2.3-6.7"></path></svg>
+          Analyze
+        </button>
+        <span class="chrome-divider" aria-hidden="true"></span>
+        <span class="chrome-ref-icon" title="Reference" aria-hidden="true">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6c-1.6-1-4.1-1.6-6.6-1.6V18C8 18 10.4 18.6 12 19.6"></path><path d="M12 6c1.6-1 4.1-1.6 6.6-1.6V18C16 18 13.6 18.6 12 19.6"></path><path d="M12 6v13.6"></path></svg>
+        </span>
+        <div class="chrome-ref-tabs" role="tablist">
+          <button type="button" class="chrome-ref-tab tab active" role="tab" aria-selected="true" data-panel="glossary" id="tab-glossary">Glossary</button>
+          <button type="button" class="chrome-ref-tab tab" role="tab" aria-selected="false" data-panel="casestudy" id="tab-casestudy">Case&nbsp;Study</button>
+          <button type="button" class="chrome-ref-tab tab" role="tab" aria-selected="false" data-panel="etymology" id="tab-etymology">Etymology</button>
         </div>
-        <div class="etymology-suggestions" id="etymology-suggestions" aria-label="Suggested words"></div>
-        <div class="etymology-feedback" id="etymology-feedback" aria-live="polite"></div>
-        <div id="etymology-results" class="etymology-results" hidden></div>
-      </div>
-    </section>
+        <span class="chrome-divider" aria-hidden="true"></span>
+        <button type="button" class="chrome-theme" id="theme-toggle" aria-label="Toggle dark mode">
+          <span id="theme-glyph" aria-hidden="true">☾</span>
+          <span id="theme-label">Dark</span>
+        </button>
+      </nav>
+    </header>
 
-    <section id="panel-analyze" class="panel" role="tabpanel" aria-labelledby="tab-analyze" hidden>
-      <p class="panel-intro">Paste a draft to see which words might be carrying more than they should. This surfaces terms worth a second look, it does not judge the writing, and it runs entirely in your browser. Nothing you paste leaves this page.</p>
-      <label class="visually-hidden" for="analyze-input">Text to analyze</label>
-      <textarea id="analyze-input" class="analyze-input" rows="8" placeholder="Paste a paragraph or a draft here."></textarea>
-      <div class="analyze-toolbar">
-        <button type="button" class="btn primary" id="analyze-run">Analyze</button>
-        <button type="button" class="btn" id="analyze-clear">Clear</button>
-      </div>
-      <p class="analyze-summary" id="analyze-summary" aria-live="polite"></p>
-      <div class="analyze-output" id="analyze-output" hidden></div>
-      <div class="analyze-findings" id="analyze-findings"></div>
-    </section>
-  </main>
+    <main class="app-main">
+      <!-- Glossary -->
+      <section id="panel-glossary" class="panel active" role="tabpanel" aria-labelledby="tab-glossary">
+        <div class="specimen-nav">
+          <span id="specimen-label" class="mono-eyebrow">Specimen</span>
+          <span class="specimen-controls mono-eyebrow">
+            <button type="button" class="text-btn" id="specimen-prev">‹ prev</button>
+            <button type="button" class="text-btn specimen-shuffle" id="specimen-shuffle">shuffle</button>
+            <button type="button" class="text-btn" id="specimen-next">next ›</button>
+          </span>
+        </div>
+        <div id="specimen-hero" class="specimen-hero"></div>
 
-  <div class="section-rule wrap" role="presentation"></div>
+        <div class="glossary-index">
+          <div class="glossary-index-head">
+            <div class="glossary-index-title">
+              <h2>The Glossary</h2>
+              <span id="glossary-count" class="mono-muted"></span>
+            </div>
+            <label class="glossary-search-wrap">
+              <span class="visually-hidden">Search terms</span>
+              <span class="search-icon" aria-hidden="true">⌕</span>
+              <input type="search" id="glossary-search" placeholder="Search terms…" autocomplete="off">
+            </label>
+          </div>
+          <p class="glossary-intro">Browse the terms below, or <button type="button" class="link-btn" id="suggest-open">suggest a term ↗</button> to help sharpen the glossary.</p>
+          <div class="filter-group" id="source-filters" aria-label="Filter by source"></div>
+          <div id="glossary-list" class="glossary-list"></div>
+        </div>
+      </section>
 
-  <footer class="site-footer">
-    <div class="wrap">
+      <!-- Case Study -->
+      <section id="panel-casestudy" class="panel" role="tabpanel" aria-labelledby="tab-casestudy" hidden>
+        <div class="panel-lead">
+          <p class="mono-eyebrow">Reference · careful rewrites, annotated</p>
+          <h1 class="panel-title">Case Study</h1>
+          <p class="panel-dek">Worked examples: hype-laden passages recast in careful language, with the reasoning shown. Study them to build the instinct — and one day you won’t need the tool.</p>
+        </div>
+        <div class="case-meta">
+          <span id="case-label" class="mono-eyebrow"></span>
+          <span class="case-controls mono-eyebrow">
+            <button type="button" class="text-btn" id="case-prev">‹ prev case</button>
+            <button type="button" class="text-btn" id="case-next">next case ›</button>
+          </span>
+        </div>
+        <div class="case-columns">
+          <div class="case-col case-before">
+            <p class="mono-eyebrow case-col-label">— Before · as written</p>
+            <p id="case-before-text" class="case-prose"></p>
+          </div>
+          <div class="case-col case-after">
+            <p class="mono-eyebrow case-col-label">+ After · careful</p>
+            <p id="case-after-text" class="case-prose"></p>
+          </div>
+        </div>
+        <div class="case-notes">
+          <p class="mono-eyebrow">Notes — what changed, and why</p>
+          <p class="case-notes-dek">Read the swaps as a set. The passage loses nothing true about the product — only the borrowed mind it never had.</p>
+          <div id="case-moves" class="case-moves"></div>
+        </div>
+        <div class="case-more">
+          <div class="case-more-head">
+            <h2>More cases</h2>
+            <span id="case-more-count" class="mono-muted"></span>
+          </div>
+          <div id="case-index" class="case-index"></div>
+        </div>
+      </section>
+
+      <!-- Etymology -->
+      <section id="panel-etymology" class="panel" role="tabpanel" aria-labelledby="tab-etymology" hidden>
+        <div class="etymology-search-block">
+          <p class="mono-eyebrow">Word lineage · why the metaphor sticks</p>
+          <div class="etymology-toolbar">
+            <label class="visually-hidden" for="etymology-word">Word</label>
+            <input type="search" id="etymology-word" placeholder="e.g. intelligence, agent, hallucinate" autocomplete="off">
+            <button type="button" class="btn primary" id="etymology-analyze">Search</button>
+          </div>
+          <p class="etymology-notice">Etymology data from <a href="https://en.wiktionary.org/" rel="noopener noreferrer">Wiktionary</a>, licensed CC BY-SA. Results are cached so repeat lookups do not re-fetch. Each result also links to the matching <a href="https://www.etymonline.com/" rel="noopener noreferrer">Etymonline</a> page for comparison.</p>
+          <div class="etymology-suggestions" id="etymology-suggestions" aria-label="Suggested words"></div>
+          <div class="etymology-feedback" id="etymology-feedback" aria-live="polite"></div>
+        </div>
+        <div id="etymology-featured" class="etymology-featured" hidden></div>
+        <div class="etymology-index">
+          <div class="etymology-index-head">
+            <h2>Other lineages</h2>
+            <span id="etymology-index-count" class="mono-muted"></span>
+          </div>
+          <div id="etymology-index-list" class="etymology-index-list"></div>
+        </div>
+      </section>
+
+      <!-- Analyze -->
+      <section id="panel-analyze" class="panel" role="tabpanel" aria-labelledby="tab-analyze" hidden>
+        <div class="analyze-head">
+          <div class="analyze-head-copy">
+            <p class="mono-eyebrow">Working tool</p>
+            <h1 class="panel-title">Analyze your prose</h1>
+            <p class="panel-dek">Paste a draft. HAVE marks the words that import more meaning than is warranted — and proposes a careful one to use instead.</p>
+          </div>
+          <div class="analyze-head-actions">
+            <button type="button" class="btn" id="analyze-paste">Paste text</button>
+            <button type="button" class="btn careful" id="analyze-apply-all" disabled>Apply all careful swaps</button>
+          </div>
+        </div>
+        <div class="analyze-stats" id="analyze-stats" hidden>
+          <div class="analyze-stat">
+            <span class="analyze-stat-num" id="stat-terms">0</span>
+            <span class="mono-muted">loaded terms</span>
+          </div>
+          <span class="analyze-stat-rule" aria-hidden="true"></span>
+          <div class="analyze-stat">
+            <span class="analyze-stat-num analyze-stat-ink" id="stat-words">0</span>
+            <span class="mono-muted">words</span>
+          </div>
+          <span class="analyze-stat-rule" aria-hidden="true"></span>
+          <div class="analyze-meter">
+            <div class="analyze-meter-labels mono-eyebrow">
+              <span>Carefulness</span>
+              <span id="stat-careful-label"></span>
+            </div>
+            <div class="analyze-meter-bar" id="stat-careful-bar" role="presentation"></div>
+          </div>
+        </div>
+        <div class="analyze-workbench">
+          <div class="analyze-manuscript">
+            <label class="visually-hidden" for="analyze-input">Text to analyze</label>
+            <p class="mono-eyebrow analyze-draft-label">Your draft</p>
+            <textarea id="analyze-input" class="analyze-input" rows="10" placeholder="Paste a paragraph or a draft here."></textarea>
+            <div class="analyze-toolbar">
+              <button type="button" class="btn primary" id="analyze-run">Analyze</button>
+              <button type="button" class="btn" id="analyze-clear">Clear</button>
+            </div>
+            <p class="analyze-summary" id="analyze-summary" aria-live="polite"></p>
+            <div class="analyze-output-wrap" id="analyze-output-wrap" hidden>
+              <div class="analyze-output" id="analyze-output"></div>
+              <p class="analyze-tip mono-muted">Tip — a mark is not a verdict. Some loaded words are the right ones; HAVE’s job is to make the choice <em>conscious</em>, not automatic.</p>
+            </div>
+          </div>
+          <aside class="analyze-margin" id="analyze-margin" aria-label="Editor's marks">
+            <p class="mono-eyebrow" id="margin-title">Editor’s marks</p>
+            <div id="analyze-detail" class="analyze-detail" hidden></div>
+            <div id="analyze-findings" class="analyze-findings"></div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
       <p>Words are fundamental. Choose consciously.</p>
-    </div>
-  </footer>
+      <p class="footer-attribution">Inspired by <a href="https://substack.com/home/post/p-201143205" rel="noopener">We Are Using the Wrong Words for AI</a> by Dr Sam Illingworth and The Strategic Linguist. Open-source — <a href="https://github.com/Himalogic/Honest-AI-Vocab-Evaluator" rel="noopener">contribute on GitHub</a>. Maintained by Justin Philip Flores for <a href="https://logosanalog.com" rel="noopener" target="_blank">Logos Analog</a>.</p>
+    </footer>
+  </div>
 
   <dialog id="suggest-dialog" class="suggest-dialog" aria-labelledby="suggest-title">
     <form id="suggest-form" class="suggest-form">

@@ -1,3 +1,5 @@
+// Optional per-term field for Etymology “How its use shifted” timelines:
+// useShift: [{ when: "c. 1600", title: "…", body: "…" }, …]
 const VOCAB_TERMS = [
   {
     id: "intelligence",
@@ -353,6 +355,20 @@ const VOCAB_TERMS = [
     forms: ["suffer", "suffers", "suffering", "suffered"]
   },
   {
+    id: "semantics",
+    misleading: "semantics",
+    replacement: "distributional structure",
+    replacementAlternatives: ["statistical associations", "co-occurrence patterns", "learned word associations"],
+    source: "Logos Analog",
+    problem: "Semantics names meaning: what a symbol is about. A model carries distributional structure, statistical associations between tokens drawn from training text. Saying the system has, grasps, or integrates semantics swaps the thin sense (patterns of word co-occurrence) for the thick sense (a grasp of meaning), and grants understanding on the strength of a word that also carries a legitimate technical use.",
+    better: "When a model is said to have or capture semantics, read it as distributional structure: which tokens pattern with which, learned from the corpus. That is what is observable. The meaning is what the reader supplies.",
+    exampleBad: "The model doesn't just track syntax, it captures the semantics.",
+    exampleGood: "The model tracks distributional structure that correlates with what humans treat as meaning.",
+    scan: "gated",
+    forms: ["semantics"],
+    negativePrev: ["distributional", "formal", "lexical", "compositional", "denotational", "operational", "frame", "vector", "latent", "montague", "theoretic", "just", "mere", "merely", "pure"]
+  },
+  {
     id: "remember",
     misleading: "remembers",
     replacement: "retains in context",
@@ -462,5 +478,9 @@ const REWRITE_EXERCISES = [
   {
     before: "Researchers reported the model was [[scheming]], [[deceiving]] its evaluators, and [[aware]] it was being watched.",
     after: "Researchers reported the model produced strategy-shaped output that misled its evaluators, under conditions where it had conditioned on cues that it was being watched."
+  },
+  {
+    before: "The vendor said the upgrade captures real [[semantics]], not just syntax, and that the model [[understands]] messy customer requests.",
+    after: "The vendor said the upgrade captures distributional structure, not just token patterns, and that the model produces output that matches messy customer requests."
   }
 ];

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background:#d9d5cc; }
+  :root{
+    --bg:#f4efe4; --panel:#efe9dd; --card:#faf7ef;
+    --ink:#2a2622; --ink-soft:#5f5749; --ink-faint:#8a8275; --mono-faint:#a39a8a; --faintest:#bcb4a4;
+    --rule:rgba(42,38,34,0.14); --rule-soft:rgba(42,38,34,0.12); --rule-strong:rgba(42,38,34,0.2);
+    --ox:#7a2328; --ox-strong:#5d1a1e; --ox-tint:rgba(122,35,40,0.14); --ox-line:rgba(122,35,40,0.5);
+    --careful:#4f6a52; --amber:#8a6d2c; --amber-bg:rgba(176,138,60,0.14); --amber-line:rgba(176,138,60,0.34);
+    --bar-bg:#201c19; --bar-ink:#ece6d9; --bar-faint:#9b9286; --bar-rule:rgba(236,230,217,0.14); --bar-chip:#2c2722;
+  }
+  [data-dark="1"]{
+    --bg:#1b1815; --panel:#211d19; --card:#2a2620;
+    --ink:#e9e3d6; --ink-soft:#c4bcae; --ink-faint:#9b9286; --mono-faint:#80776a; --faintest:#6b6356;
+    --rule:rgba(233,227,214,0.12); --rule-soft:rgba(233,227,214,0.08); --rule-strong:rgba(233,227,214,0.2);
+    --ox:#a5304c; --ox-strong:#7a2328; --ox-tint:rgba(165,48,76,0.20); --ox-line:rgba(198,94,130,0.6);
+    --careful:#88a98a; --amber:#c7a155; --amber-bg:rgba(199,161,85,0.14); --amber-line:rgba(199,161,85,0.3);
+    --bar-bg:#141110; --bar-ink:#e9e3d6; --bar-faint:#8f8676; --bar-rule:rgba(233,227,214,0.1); --bar-chip:#221e1a;
+  }
+</style>
+</helmet>
+
+<div data-dark="{{ darkAttr }}" style="background:var(--bg); min-height:100vh; font-family:'Newsreader',Georgia,serif; color:var(--ink); display:flex; flex-direction:column;">
+
+  <!-- ===== Reversed plate ===== -->
+  <div style="display:flex; align-items:center; justify-content:space-between; padding:16px 40px; background:var(--bar-bg); color:var(--bar-ink);">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span style="width:22px; height:22px; border-radius:3px; background:var(--ox-strong); display:inline-flex; align-items:center; justify-content:center; color:#f4efe4; font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600;">H</span>
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:0.12em; font-weight:600;">HAVE</span>
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.06em; color:var(--bar-faint); margin-left:2px;">Honest AI Vocabulary Evaluator</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:20px; font-family:'IBM Plex Mono',monospace; font-size:12.5px; letter-spacing:0.03em;">
+      <span style="display:inline-flex; align-items:center; gap:8px; color:#f4efe4; font-weight:600; background:var(--ox-strong); padding:8px 15px; border-radius:4px;">
+        <svg width="18" height="13" viewBox="0 0 24 18" fill="none" stroke="#f4efe4" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><circle cx="5.5" cy="11" r="3.6"></circle><circle cx="18.5" cy="11" r="3.6"></circle><path d="M9.1 11c0-1.1 1.1-1.8 2.9-1.8s2.9.7 2.9 1.8"></path><path d="M1.9 11C1.9 8 2.6 5.6 4.2 4.3"></path><path d="M22.1 11c0-3-.7-5.4-2.3-6.7"></path></svg>Analyze
+      </span>
+      <span style="width:1px; height:20px; background:var(--bar-rule);"></span>
+      <span title="Reference" style="display:inline-flex; color:var(--bar-faint);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M12 6c-1.6-1-4.1-1.6-6.6-1.6V18C8 18 10.4 18.6 12 19.6"></path><path d="M12 6c1.6-1 4.1-1.6 6.6-1.6V18C16 18 13.6 18.6 12 19.6"></path><path d="M12 6v13.6"></path></svg></span>
+      <div style="display:flex; gap:18px;">
+        <span style="color:var(--bar-faint);">Glossary</span>
+        <span style="color:var(--bar-faint);">Case&nbsp;Study</span>
+        <span style="color:#f4efe4; font-weight:600; border-bottom:2px solid var(--ox); padding-bottom:2px;">Etymology</span>
+      </div>
+      <span style="width:1px; height:20px; background:var(--bar-rule);"></span>
+      <span style="display:inline-flex; align-items:center; gap:7px; color:var(--bar-ink); border:1px solid var(--bar-rule); border-radius:20px; padding:5px 11px 5px 9px; background:var(--bar-chip);">{{ themeGlyph }} {{ themeLabel }}</span>
+    </div>
+  </div>
+
+  <!-- ===== Featured lineage ===== -->
+  <div style="padding:34px 40px 10px;">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:8px;">Word lineage · why the metaphor sticks</div>
+  </div>
+
+  <div style="display:flex; gap:0; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);">
+    <!-- Left: the word -->
+    <div style="flex:none; width:430px; padding:40px 44px 48px; border-right:1px solid var(--rule);">
+      <h1 style="font-size:62px; font-weight:500; margin:0; letter-spacing:-0.025em; line-height:1;">Hallucinate</h1>
+      <div style="display:flex; align-items:baseline; gap:12px; margin:16px 0 0; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--ink-faint);">
+        <span>/həˈluː.sɪ.neɪt/</span><span style="font-style:normal; color:var(--mono-faint);">·</span><span>verb</span>
+      </div>
+      <div style="margin-top:28px; padding:18px 20px; background:var(--card); border:1px solid var(--rule); border-radius:3px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--mono-faint); margin-bottom:8px;">Root</div>
+        <p style="margin:0; font-size:18px; line-height:1.55; color:var(--ink);">Latin <span style="font-style:italic;">ālūcinārī</span> — “to wander in the mind, to dream, to be deceived.”</p>
+      </div>
+      <div style="margin-top:18px; padding-left:18px; border-left:2px solid var(--ox-line);">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--ox); margin-bottom:8px;">What it imports</div>
+        <p style="margin:0; font-size:18px; line-height:1.6; color:var(--ink-soft);">A <span style="color:var(--ink);">perceiving subject</span> whose senses have misfired. Applied to a model, it quietly grants the very inner life in question.</p>
+      </div>
+      <div style="margin-top:26px; display:flex; align-items:baseline; gap:11px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-faint);">careful term →</span>
+        <span style="font-size:24px; color:var(--careful); font-weight:600;">Fabricate</span>
+      </div>
+    </div>
+
+    <!-- Right: migration timeline -->
+    <div style="flex:1; padding:40px 48px 48px;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:30px;">How the word migrated</div>
+      <sc-for list="{{ timeline }}" as="e" hint-placeholder-count="4">
+        <div style="display:flex; gap:24px; padding-bottom:26px;">
+          <div style="flex:none; width:96px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--ox); padding-top:2px;">{{ e.when }}</div>
+          <div style="flex:none; display:flex; flex-direction:column; align-items:center;">
+            <span style="width:11px; height:11px; border-radius:50%; background:var(--ox); margin-top:5px;"></span>
+            <span style="flex:1; width:2px; background:var(--rule-strong); margin-top:4px;"></span>
+          </div>
+          <div style="flex:1; padding-bottom:4px;">
+            <div style="font-size:19px; font-weight:600; color:var(--ink); margin-bottom:4px;">{{ e.title }}</div>
+            <p style="margin:0; font-size:16.5px; line-height:1.55; color:var(--ink-soft); max-width:520px;">{{ e.body }}</p>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- ===== Other lineages index ===== -->
+  <div style="background:var(--panel); padding:30px 40px 60px;">
+    <div style="display:flex; align-items:baseline; gap:14px; margin-bottom:18px;">
+      <h2 style="font-size:24px; font-weight:500; margin:0; letter-spacing:-0.01em;">Other lineages</h2>
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink-faint);">11 more</span>
+    </div>
+    <sc-for list="{{ roots }}" as="r" hint-placeholder-count="6">
+      <div style="display:flex; align-items:baseline; gap:24px; padding:16px 8px; border-bottom:1px solid var(--rule-soft);">
+        <span style="flex:none; width:170px; font-size:21px; color:var(--ink);">{{ r.word }}</span>
+        <span style="flex:none; width:230px; font-size:17px; font-style:italic; color:var(--ox);">{{ r.root }}</span>
+        <span style="flex:1; font-size:16px; line-height:1.5; color:var(--ink-soft);">{{ r.imports }}</span>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:1240},&quot;dark&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    const ev = (when, title, body) => ({ when, title, body });
+    const rt = (word, root, imports) => ({ word, root, imports });
+    return {
+      darkAttr: dark ? '1' : '0',
+      themeGlyph: dark ? '☀' : '☾',
+      themeLabel: dark ? 'Light' : 'Dark',
+      timeline: [
+        ev('c. 1600', 'Enters English', 'Borrowed from Latin to mean “to be deceived, to entertain illusions” — said only of people.'),
+        ev('1830s', 'Clinical sense', 'Psychiatry narrows it: a perception with no external object, the hallmark of a disordered mind.'),
+        ev('2015–18', 'Borrowed into ML', 'Researchers reach for it to name confident, false model outputs — importing the perceiving subject wholesale.'),
+        ev('Today', 'The load it carries', 'In common usage it implies the system saw something — granting perception to a process that has none.')
+      ],
+      roots: [
+        rt('Agent', 'Latin agere', '“to do, to drive, to act” — and so, one who acts with intent and can be blamed.'),
+        rt('Intelligence', 'Latin intelligere', '“to choose between, to read” — a faculty of mind, not a benchmark score.'),
+        rt('Understand', 'Old English understandan', '“to stand in the midst of” — to comprehend from within.'),
+        rt('Reason', 'Latin ratio', '“reckoning, account” — deliberation that weighs and judges.'),
+        rt('Learn', 'Old English leornian', '“to get knowledge, to be cultivated” — growth in a being.'),
+        rt('Neural', 'Greek neuron', '“nerve, sinew” — the prestige of living tissue lent to math.')
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

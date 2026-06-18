@@ -1,10 +1,10 @@
 {
   "name": "Honest AI Vocabulary Evaluator",
-  "short_name": "AI Vocabulary",
+  "short_name": "HAVE",
   "start_url": "/",
   "display": "browser",
-  "background_color": "#363231",
-  "theme_color": "#363231",
+  "background_color": "#f4efe4",
+  "theme_color": "#201c19",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
