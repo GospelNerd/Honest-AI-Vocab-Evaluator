@@ -95,6 +95,10 @@
     return t && t.type !== "caution";
   }
 
+  function canAutoSwap(t) {
+    return hasCleanSwap(t) && t.autoSwap !== false;
+  }
+
   function swapTextFor(t) {
     return (t && (t.swapText || t.replacement)) || "";
   }
@@ -148,7 +152,7 @@
     const ids = uniqueActiveTermIds(hits);
     for (const id of ids) {
       const t = TERM_BY_ID.get(id);
-      if (t && hasCleanSwap(t) && !resolvedIds.has(id)) return true;
+      if (t && canAutoSwap(t) && !resolvedIds.has(id)) return true;
     }
     return false;
   }
@@ -165,11 +169,12 @@
     }
     const num = hitNumbers.get(hit.id);
     const swap = swapTextFor(t);
+    const canSwap = canAutoSwap(t);
     const careful = hasCleanSwap(t)
       ? `<p class="analyze-detail-swap-label">use instead</p>
          <div class="analyze-detail-careful">${esc(swap)}</div>
          <div class="analyze-detail-actions">
-           <button type="button" class="btn careful" data-action="use" data-term-id="${esc(t.id)}">Use “${esc(swap)}”</button>
+           ${canSwap ? `<button type="button" class="btn careful" data-action="use" data-term-id="${esc(t.id)}">Use “${esc(swap)}”</button>` : `<p class="analyze-swap-note mono-muted">Usually needs a clause rewrite — not a one-word swap.</p>`}
            <button type="button" class="btn" data-action="ignore" data-term-id="${esc(t.id)}">Ignore</button>
            <button type="button" class="btn" data-action="glossary" data-term-id="${esc(t.id)}">↗</button>
          </div>`
@@ -299,7 +304,7 @@
 
   function applySwapForTerm(termId) {
     const t = TERM_BY_ID.get(termId);
-    if (!t || !hasCleanSwap(t)) return;
+    if (!t || !canAutoSwap(t)) return;
     let text = input.value;
     let delta = 0;
     const hits = analyze(text).hits;
@@ -327,7 +332,7 @@
     let text = input.value;
     const ids = [...uniqueActiveTermIds(analyze(text).hits)].filter((id) => {
       const t = TERM_BY_ID.get(id);
-      return t && hasCleanSwap(t) && !resolvedIds.has(id);
+      return t && canAutoSwap(t) && !resolvedIds.has(id);
     });
     ids.forEach((id) => {
       const t = TERM_BY_ID.get(id);

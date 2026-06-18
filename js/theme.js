@@ -1,7 +1,5 @@
 (function () {
   const KEY = "have-theme";
-  const app = document.getElementById("app");
-  if (!app) return;
 
   function prefersDark() {
     return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -26,6 +24,7 @@
   function apply(dark) {
     const on = dark ? "1" : "0";
     document.documentElement.dataset.dark = on;
+    const app = document.getElementById("app");
     if (app) app.dataset.dark = on;
     document.documentElement.style.colorScheme = dark ? "dark" : "light";
     const glyph = document.getElementById("theme-glyph");
@@ -36,17 +35,25 @@
     if (meta) meta.content = dark ? "#141110" : "#201c19";
   }
 
-  const stored = readStored();
-  const initialDark = stored === "dark" ? true : stored === "light" ? false : prefersDark();
-  apply(initialDark);
-
-  const toggle = document.getElementById("theme-toggle");
-  if (toggle) {
+  function bindToggle() {
+    const toggle = document.getElementById("theme-toggle");
+    if (!toggle || toggle.dataset.bound === "1") return;
+    toggle.dataset.bound = "1";
     toggle.addEventListener("click", () => {
       const next = document.documentElement.dataset.dark !== "1";
       apply(next);
       writeStored(next);
     });
+  }
+
+  const stored = readStored();
+  const initialDark = stored === "dark" ? true : stored === "light" ? false : prefersDark();
+  apply(initialDark);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bindToggle);
+  } else {
+    bindToggle();
   }
 
   window.HAVE_THEME = { apply: apply };
