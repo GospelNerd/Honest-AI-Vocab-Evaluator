@@ -18,7 +18,7 @@ A standard entry looks like this:
   misleading: "understands",         // the term as it is commonly used about AI
   replacement: "matches",            // the primary careful replacement
   replacementAlternatives: ["processes", "represents"], // other accepted answers (used by Practice)
-  source: "logosanalog",             // provenance: "Slow AI", "logosanalog", or a contributor name/handle
+  source: "logosanalog",             // provenance: "Illingworth & Wicker", "logosanalog", or a contributor name/handle
   problem: "Why the common term smuggles in unearned meaning. One clean point.",
   better: "What to use instead, and when.",
   exampleBad: "The model understands the user's intent.",

@@ -32,7 +32,7 @@
     if (glyph) glyph.textContent = dark ? "☀" : "☾";
     if (label) label.textContent = dark ? "Light" : "Dark";
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.content = dark ? "#141110" : "#201c19";
+    if (meta) meta.content = dark ? "#11151a" : "#201c19";
   }
 
   function bindToggle() {

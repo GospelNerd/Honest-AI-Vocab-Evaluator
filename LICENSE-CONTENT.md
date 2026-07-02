@@ -9,7 +9,7 @@ You are free to share and adapt this content, including for commercial purposes,
 
 ## Attribution
 
-The terms intelligence, hallucination, AGI, consciousness, and agent, and their replacements, originate in "We Are Using the Wrong Words for AI" by Dr Sam Illingworth and The Strategic Linguist (Slow AI, 2026): https://theslowai.substack.com/p/wrong-words-for-ai
+The terms intelligence, hallucination, AGI, consciousness, and agent, and their replacements, originate in "We Are Using the Wrong Words for AI," co-authored by Dr Sam Illingworth and Rebecca Wicker (The Strategic Linguist), published on Slow AI (2026): https://theslowai.substack.com/p/wrong-words-for-ai
 
 Additional terms and all entry wording in this repository are by Justin Philip Flores / Logos Analog.
 

@@ -25,7 +25,7 @@
   }
 
   function sourceShort(src) {
-    if (src === "Slow AI") return "SAI";
+    if (src === "Illingworth & Wicker") return "I&W";
     if (src === "Logos Analog") return "LA";
     return src;
   }
@@ -475,6 +475,70 @@
     return null;
   }
 
+  function etymologyReplacementLookup(term) {
+    if (!term || !hasCleanSwap(term)) return null;
+    const candidate = (term.replacement || "").trim().split(/\s+/)[0].replace(/\?+$/, "");
+    if (!candidate || !/^[a-zA-Z][a-zA-Z0-9'-]*$/.test(candidate)) return null;
+    return candidate.toLowerCase();
+  }
+
+  async function fetchEtymologyData(word) {
+    const normalized = word.toLowerCase();
+    const sessionHit = readEtymologySession(normalized);
+    if (sessionHit) return sessionHit;
+    const res = await fetch(`api/etymology.php?word=${encodeURIComponent(word)}`);
+    const data = await res.json();
+    writeEtymologySession(normalized, data);
+    return data;
+  }
+
+  function buildWiktHtml(data) {
+    let wiktHtml = "";
+    (data.entries || []).forEach((entry) => {
+      wiktHtml += `<div class="etymology-wikt-block">`;
+      if (entry.lexicalCategory) {
+        wiktHtml += `<p class="mono-eyebrow">${esc(entry.lexicalCategory)}</p>`;
+      }
+      if (entry.etymologies.length) {
+        wiktHtml += `<ul class="etymology-list">${entry.etymologies.map((e) => `<li>${esc(e)}</li>`).join("")}</ul>`;
+      }
+      if (entry.definitions.length) {
+        wiktHtml += `<p class="mono-eyebrow" style="margin-top:0.75rem">Definitions</p>
+          <ol class="definition-list">${entry.definitions.map((d) => `<li>${esc(d)}</li>`).join("")}</ol>`;
+      }
+      wiktHtml += `</div>`;
+    });
+    return wiktHtml;
+  }
+
+  function renderCarefulBlock(glossaryTerm, replacementData) {
+    if (!glossaryTerm || !hasCleanSwap(glossaryTerm)) return "";
+
+    const replacementRoot = replacementData && replacementData.entries && replacementData.entries.length
+      ? firstEtymologyLine(replacementData)
+      : null;
+    const explanation = glossaryTerm.better || "";
+
+    let detailHtml = "";
+    if (replacementRoot) {
+      detailHtml += `<div class="etymology-card-block etymology-careful-detail">
+           <div class="etymology-card-label">Root</div>
+           <p class="etymology-card-text">${esc(replacementRoot)}</p>
+         </div>`;
+    }
+    if (explanation) {
+      detailHtml += `<p class="etymology-careful-text">${esc(explanation)}</p>`;
+    }
+
+    return `<div class="etymology-careful-block">
+         <div class="etymology-careful-link">
+           <span class="mono-muted">careful term →</span>
+           <a href="#glossary/${encodeURIComponent(glossaryTerm.id)}">${esc(capitalize(glossaryTerm.replacement))}</a>
+         </div>
+         ${detailHtml}
+       </div>`;
+  }
+
   function renderShiftTimeline(term) {
     if (!term || !term.useShift || !term.useShift.length) {
       return `<p class="etymology-shift-placeholder">“How its use shifted” timelines are being researched term by term. For now, the root and import notes above are what we can support with confidence.</p>`;
@@ -493,16 +557,12 @@
       </div>`).join("");
   }
 
-  function renderEtymologyFeatured(data) {
+  function renderEtymologyFeatured(data, replacementData) {
     const glossaryTerm = termByForm(data.word);
     const root = firstEtymologyLine(data) || "Look up the Wiktionary entry below for the full lineage.";
     const pos = lexicalLabel(data);
-    const careful = glossaryTerm && hasCleanSwap(glossaryTerm)
-      ? `<div class="etymology-careful-link">
-           <span class="mono-muted">careful term →</span>
-           <a href="#glossary/${encodeURIComponent(glossaryTerm.id)}">${esc(capitalize(glossaryTerm.replacement))}</a>
-         </div>`
-      : "";
+    const careful = renderCarefulBlock(glossaryTerm, replacementData);
+    const wiktHtml = buildWiktHtml(data);
 
     const importNote = glossaryTerm
       ? `<div class="etymology-import">
@@ -510,22 +570,6 @@
            <p class="etymology-card-text">${esc(glossaryTerm.problem)}</p>
          </div>`
       : "";
-
-    let wiktHtml = "";
-    data.entries.forEach((entry) => {
-      wiktHtml += `<div class="etymology-wikt-block">`;
-      if (entry.lexicalCategory) {
-        wiktHtml += `<p class="mono-eyebrow">${esc(entry.lexicalCategory)}</p>`;
-      }
-      if (entry.etymologies.length) {
-        wiktHtml += `<ul class="etymology-list">${entry.etymologies.map((e) => `<li>${esc(e)}</li>`).join("")}</ul>`;
-      }
-      if (entry.definitions.length) {
-        wiktHtml += `<p class="mono-eyebrow" style="margin-top:0.75rem">Definitions</p>
-          <ol class="definition-list">${entry.definitions.map((d) => `<li>${esc(d)}</li>`).join("")}</ol>`;
-      }
-      wiktHtml += `</div>`;
-    });
 
     const etymonlineUrl = `https://www.etymonline.com/word/${encodeURIComponent(data.word)}`;
     const sourceLink = data.sourceUrl
@@ -543,8 +587,8 @@
             <p class="etymology-card-text">${esc(root)}</p>
           </div>
           ${importNote}
-          ${careful}
           ${wiktHtml}
+          ${careful}
           <p class="etymology-attribution">${esc(data.attribution || "")}${links ? ` · ${links}` : ""}</p>
         </div>
         <div class="etymology-shift-col">
@@ -594,28 +638,11 @@
     etymologyFeedback.className = "etymology-feedback loading";
     etymologyFeatured.hidden = true;
 
-    const sessionHit = readEtymologySession(word);
-    if (sessionHit) {
-      if (sessionHit.error) {
-        etymologyFeedback.textContent = sessionHit.error;
-        etymologyFeedback.className = "etymology-feedback error";
-      } else {
-        etymologyFeedback.textContent = "";
-        etymologyFeedback.className = "etymology-feedback";
-        renderEtymologyFeatured(sessionHit);
-      }
-      etymologyBusy = false;
-      etymologyAnalyzeBtn.disabled = false;
-      return;
-    }
-
     try {
-      const res = await fetch(`api/etymology.php?word=${encodeURIComponent(word)}`);
-      const data = await res.json();
-      if (!res.ok) {
-        etymologyFeedback.textContent = data.error || "Lookup failed.";
+      const data = await fetchEtymologyData(word);
+      if (data.error) {
+        etymologyFeedback.textContent = data.error;
         etymologyFeedback.className = "etymology-feedback error";
-        writeEtymologySession(word, data);
         return;
       }
       if (!data.entries || !data.entries.length) {
@@ -623,10 +650,20 @@
         etymologyFeedback.className = "etymology-feedback error";
         return;
       }
+
+      const glossaryTerm = termByForm(data.word);
+      const replacementWord = etymologyReplacementLookup(glossaryTerm);
+      let replacementData = null;
+      if (replacementWord && replacementWord !== data.word.toLowerCase()) {
+        const fetched = await fetchEtymologyData(replacementWord);
+        if (fetched.entries && fetched.entries.length) {
+          replacementData = fetched;
+        }
+      }
+
       etymologyFeedback.textContent = "";
       etymologyFeedback.className = "etymology-feedback";
-      writeEtymologySession(word, data);
-      renderEtymologyFeatured(data);
+      renderEtymologyFeatured(data, replacementData);
     } catch (err) {
       etymologyFeedback.textContent = "Could not reach the lookup service.";
       etymologyFeedback.className = "etymology-feedback error";
