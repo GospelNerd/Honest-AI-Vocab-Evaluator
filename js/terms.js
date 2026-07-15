@@ -691,7 +691,7 @@ const VOCAB_TERMS = [
     useShift: [
       { when: "Latin–early EN", title: "Artifice", body: "Artificial means made by art, an imitation or substitute, explicitly not the genuine article." },
       { when: "Industrial era", title: "Manufactured", body: "Artificial flavors and fibers stress human making; the contrast is real vs. synthetic material." },
-      { when: "1956–", title: "Artificial intelligence", body: "The field name is read as a manufactured kind of intelligence rather than an artifice of it." },
+      { when: "1955–56", title: "McCarthy's coinage", body: "John McCarthy names the Dartmouth project “artificial intelligence,” locking in the reading of artificial as a manufactured kind of the noun rather than an artifice of it." },
       { when: "Today", title: "The load it carries", body: "Artificial X is heard as a manufactured X, smuggling in that X was defined and achieved." }
     ]
   },
